@@ -1,0 +1,31 @@
+<div class="login-container">
+	<div class="login-card">
+		<h3 class="text-center mb-4 doto">Multi-Factor Authentication</h3>
+		<br />
+		<h3 class="text-center pixelify-sans">Enter the 6-digit PIN</h3>
+		<br />
+
+		<div class="pin-input-container">
+			<input
+				*ngFor="let digit of pin; let i = index"
+				type="text"
+				name="pin{{ i }}"
+				maxlength="1"
+				[value]="pin[i]"
+				(input)="onInput(i, $event)"
+				class="pin-input doto2"
+			/>
+		</div>
+
+		<br />
+		<button (click)="verifyMfa()" class="pixelify-sans">V E R I F Y</button>
+		<br />
+		<h3 *ngIf="!!error" class="error pixelify-sans">
+			{{ error }}
+		</h3>
+
+		<br />
+		<p class="pixelify-sans">Do you wish to cancel?</p>
+		<a href="/login" class="pixelify-sans">Back</a>
+	</div>
+</div>

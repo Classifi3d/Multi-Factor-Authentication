@@ -1,0 +1,94 @@
+.login-container {
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 15px;
+}
+
+.login-card {
+	width: 100%;
+	max-width: 800px;
+	height: 550px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 2rem;
+	border-radius: 15px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	background: white;
+	text-align: center;
+}
+
+h3 {
+	font-size: 24px;
+	margin-bottom: 20px;
+	color: #333;
+}
+
+p {
+	font-size: 18px;
+	margin: 10px 0;
+	color: #555;
+
+	strong {
+		color: #101010;
+	}
+}
+
+.error {
+	color: red;
+	font-weight: bold;
+}
+
+button {
+	margin-top: 15px;
+	padding: 10px 15px;
+	font-size: 16px;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: background 0.3s ease;
+}
+
+button:first-of-type {
+	background-color: #d9534f; /* Red logout button */
+	color: white;
+}
+
+button:first-of-type:hover {
+	background-color: #c9302c;
+}
+
+button:last-of-type {
+	background-color: #4caf50; /* Green enable MFA button */
+	color: white;
+}
+
+button:last-of-type:hover {
+	background-color: #45a049;
+}
+
+.button-container {
+	display: flex;
+	justify-content: space-evenly; /* Space buttons evenly */
+	width: 100%; /* Ensure the container takes the full width */
+}
+
+@media (max-width: 768px) {
+	.login-card {
+		max-width: 90%;
+		height: auto;
+		padding: 2rem;
+	}
+}
+
+.pixelify-sans-data {
+	max-width: 90%; /* Set the max width to 90% of the parent container */
+	margin: 0 auto; /* Center the content horizontally */
+	word-wrap: break-word; /* Ensure the text wraps properly */
+	font-family: "Pixelify Sans", sans-serif !important;
+	font-optical-sizing: auto;
+	font-weight: 500;
+	font-style: normal;
+}

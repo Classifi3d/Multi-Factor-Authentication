@@ -1,0 +1,58 @@
+<div class="login-container">
+	<div class="login-card">
+		<h3 class="text-center mb-4 doto">User Menu</h3>
+		<h3 *ngIf="error" class="error pixelify-sans">
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			{{ error }}
+		</h3>
+
+		<div *ngIf="userData && !loading && !error" class="pixelify-sans-data">
+			<p matTooltip="Your registered email">
+				<strong>Email:</strong> {{ userData.email }}
+			</p>
+			<p matTooltip="Your unique user ID">
+				<strong>User ID:</strong> {{ userData.id }}
+			</p>
+			<p matTooltip="Hashed password for security">
+				<strong>Hashed Password:</strong> {{ userData.password }}
+			</p>
+			<p matTooltip="Your OAuth token for authentication">
+				<strong>OAuth Token:</strong>
+				{{ oAuthTokenSmall }}
+			</p>
+			<p matTooltip="Indicates whether MFA is enabled">
+				<strong>MFA Enabled:</strong>
+				{{ isMfaEnabled ? "Yes" : "No" }}
+			</p>
+			<p matTooltip="A temporary challenge token">
+				<strong>Challange Token:</strong> {{ challangeToken }}
+			</p>
+			<br />
+
+			<div class="button-container">
+				<button (click)="logout()">Logout</button>
+				<button *ngIf="!isMfaEnabled" (click)="enableMfa()">
+					Enable MFA
+				</button>
+				<button *ngIf="isMfaEnabled" (click)="disableMfa()">
+					Disable MFA
+				</button>
+			</div>
+		</div>
+		<div *ngIf="error">
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<p class="pixelify-sans">Go back to login page</p>
+			<a href="" (click)="logout()" class="pixelify-sans">Back</a>
+		</div>
+	</div>
+</div>

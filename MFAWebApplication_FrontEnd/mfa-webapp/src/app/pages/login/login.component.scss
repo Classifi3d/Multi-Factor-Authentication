@@ -1,0 +1,52 @@
+.login-container {
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 15px;
+}
+
+.login-card {
+	width: 100%;
+	max-width: 400px;
+	height: 550px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 2rem;
+	border-radius: 15px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	background: white;
+}
+
+@media (max-width: 768px) {
+	.login-card {
+		max-width: 90%;
+		height: auto; // Adjust height for smaller screens
+		padding: 2rem;
+	}
+}
+
+.pixelify-sans {
+	font-family: "Pixelify Sans", sans-serif !important;
+	font-optical-sizing: auto;
+	font-weight: 500;
+	font-style: normal;
+}
+
+mat-form-field input.mat-input-element {
+	font-family: "Pixelify Sans", sans-serif !important;
+}
+
+.doto {
+	font-family: "Doto", serif;
+	font-optical-sizing: auto;
+	font-weight: 500;
+	font-style: normal;
+	font-variation-settings: "ROND" 100;
+}
+
+.error {
+	color: red !important;
+	font-weight: bold !important;
+}

@@ -1,0 +1,16 @@
+<div class="login-container">
+	<div class="login-card">
+		<h3 class="text-center mb-4 doto">Multi Factor Authentication</h3>
+		<div *ngIf="qrCodeImage" class="qr-code-container">
+			<img [src]="qrCodeImage" alt="QR Code" />
+		</div>
+
+		<div *ngIf="!qrCodeImage">
+			<div class="error pixelify-sans">QR Code Generation Failed!</div>
+		</div>
+		<h3 class="pixelify-sans text-center">Scan the code above</h3>
+		<br />
+		<p class="pixelify-sans">Are you finsihed scanning?</p>
+		<a href="/login" class="pixelify-sans">Back</a>
+	</div>
+</div>

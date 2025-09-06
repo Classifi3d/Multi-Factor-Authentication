@@ -1,0 +1,122 @@
+[
+  {
+    "ContainingType": "AuthenticationWebApplication.Controllers.UserController",
+    "Method": "GetUsersAsync",
+    "RelativePath": "User",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AuthenticationWebApplication.Controllers.UserController",
+    "Method": "UpdateUserAsync",
+    "RelativePath": "User",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userDTO",
+        "Type": "AuthenticationWebApplication.DTOs.UserDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AuthenticationWebApplication.Controllers.UserController",
+    "Method": "DeleteUserAsync",
+    "RelativePath": "User/{userId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AuthenticationWebApplication.Controllers.UserController",
+    "Method": "MfaDisableAsync",
+    "RelativePath": "User/disable-mfa",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AuthenticationWebApplication.Controllers.UserController",
+    "Method": "MfaGenerateAsync",
+    "RelativePath": "User/enable-mfa",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AuthenticationWebApplication.Controllers.UserController",
+    "Method": "LoginAsync",
+    "RelativePath": "User/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userLoginDTO",
+        "Type": "AuthenticationWebApplication.DTOs.UserLoginDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AuthenticationWebApplication.Controllers.UserController",
+    "Method": "AddUserAsync",
+    "RelativePath": "User/sign-up",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userDTO",
+        "Type": "AuthenticationWebApplication.DTOs.UserDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AuthenticationWebApplication.Controllers.UserController",
+    "Method": "GetUserData",
+    "RelativePath": "User/user-data",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AuthenticationWebApplication.Controllers.UserController",
+    "Method": "VerifyMfaAsync",
+    "RelativePath": "User/verify-mfa",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "verificationDTO",
+        "Type": "MFAWebApplication.DTOs.MfaVerificationDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

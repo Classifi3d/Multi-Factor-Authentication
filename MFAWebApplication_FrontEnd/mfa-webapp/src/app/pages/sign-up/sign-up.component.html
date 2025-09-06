@@ -1,0 +1,85 @@
+<div class="signup-container">
+	<div class="signup-card">
+		<h3 class="text-center mb-4 doto">Sign Up</h3>
+		<p class="pixelify-sans">Create your account</p>
+
+		<form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+			<mat-form-field appearance="outline" class="w-100">
+				<mat-label class="pixelify-sans">Email Address</mat-label>
+				<input
+					class="pixelify-sans"
+					matInput
+					type="email"
+					formControlName="email"
+					placeholder="Enter your email"
+					required
+				/>
+				@if (!signUpForm.get('email')?.valid) {
+				<mat-error class="pixelify-sans font-red">
+					{{ getEmailErrorMessage() }}
+				</mat-error>
+				}
+			</mat-form-field>
+			<br />
+			<br />
+			<mat-form-field appearance="outline" class="w-100">
+				<mat-label class="pixelify-sans">Enter your password</mat-label>
+				<input
+					matInput
+					formControlName="password"
+					placeholder="password"
+					required
+					[type]="hide ? 'password' : 'text'"
+					class="pixelify-sans"
+				/>
+
+				<button
+					mat-icon-button
+					matSuffix
+					(click)="hide = !hide"
+					[attr.aria-label]="'Hide password'"
+					[attr.aria-pressed]="hide"
+				>
+					<mat-icon>{{
+						hide ? "visibility_off" : "visibility"
+					}}</mat-icon>
+				</button>
+			</mat-form-field>
+			<br />
+			<br />
+
+			<mat-form-field appearance="outline" class="w-100">
+				<mat-label class="pixelify-sans">Enter your password</mat-label>
+				<input
+					matInput
+					formControlName="password"
+					placeholder="password"
+					required
+					[type]="hide ? 'password' : 'text'"
+					class="pixelify-sans"
+				/>
+				@if (!signUpForm.get('password')?.valid) {
+				<mat-error class="pixelify-sans font-red">{{
+					getPasswordErrorMessage()
+				}}</mat-error>
+				}
+			</mat-form-field>
+			<br />
+			<br />
+
+			<button
+				mat-raised-button
+				color="primary"
+				class="w-100 mt-3 pixelify-sans"
+				type="submit"
+			>
+				R E G I S T E R
+			</button>
+			<br />
+			<br />
+			<br />
+			<p class="pixelify-sans">Already have an account?</p>
+			<a href="/login" class="pixelify-sans">Login</a>
+		</form>
+	</div>
+</div>
