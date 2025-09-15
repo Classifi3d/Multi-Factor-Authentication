@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MFAWebApplication.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class initialmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,7 +22,9 @@ namespace MFAWebApplication.Migrations
                     Phone = table.Column<string>(type: "text", nullable: false),
                     Gender = table.Column<byte>(type: "smallint", nullable: false),
                     MfaSecretKey = table.Column<string>(type: "text", nullable: true),
-                    IsMfaEnabled = table.Column<bool>(type: "boolean", nullable: false)
+                    IsMfaEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {

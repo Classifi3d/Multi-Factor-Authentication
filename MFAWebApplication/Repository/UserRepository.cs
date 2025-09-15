@@ -15,18 +15,20 @@ public class UserRepository : IUserRepository
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly IMemoryCache _cache;
-    private readonly Mapper _mapper;
     private readonly SecurityService _securityService;
+    private readonly Mapper _mapper;
 
     public UserRepository( ApplicationDbContext dbContext,
                         IConfiguration configuration,
                         IMemoryCache cache,
-                        SecurityService securityService )
+                        SecurityService securityService,
+                        Mapper mapper
+        )
     {
         _dbContext = dbContext;
-        _mapper = Context.MapperConfiguration.InitializeAutomapper();
         _cache = cache;
         _securityService = securityService;
+        _mapper = mapper;
     }
 
     public async Task<IEnumerable<UserDTO>?> GetUsersAsync()

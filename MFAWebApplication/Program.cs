@@ -126,18 +126,17 @@ builder
 
 
 // Depedency Injections
+builder.Services.AddSingleton(MapperConfiguration.InitializeAutomapper());
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(CreateUserCommand).Assembly));
-
 builder.Services.AddScoped<SecurityService>();
 
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if ( app.Environment.IsDevelopment() )
 {
     app.UseSwagger();
     app.UseSwaggerUI();
