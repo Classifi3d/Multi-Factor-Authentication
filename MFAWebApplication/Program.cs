@@ -1,5 +1,8 @@
 using AuthenticationWebApplication.Context;
 using AuthenticationWebApplication.Repository;
+using MFAWebApplication.Abstraction;
+using MFAWebApplication.CommandsAndQueries.Users;
+using MFAWebApplication.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
@@ -111,8 +114,6 @@ builder
     });
 
 
-
-
 // PostGresDB
 builder
     .Services
@@ -120,12 +121,17 @@ builder
         options =>
             options.UseNpgsql(
                 builder.Configuration.GetConnectionString("PostgreSQL_Connection_String")
-            )
+        )
     );
 
 
 // Depedency Injections
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(CreateUserCommand).Assembly));
+
+builder.Services.AddScoped<SecurityService>();
 
 
 var app = builder.Build();
