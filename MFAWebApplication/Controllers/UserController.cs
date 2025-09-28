@@ -1,7 +1,6 @@
 ﻿using AuthenticationWebApplication.DTOs;
 using AuthenticationWebApplication.Repository;
 using AutoMapper;
-using CSharpFunctionalExtensions;
 using MFAWebApplication.Abstraction;
 using MFAWebApplication.CommandsAndQueries.Users;
 using MFAWebApplication.DTOs;
@@ -9,6 +8,8 @@ using MFAWebApplication.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.Extensions.Caching.Memory;
+using System.Reflection;
 using System.Security.Claims;
 
 
@@ -19,21 +20,33 @@ namespace AuthenticationWebApplication.Controllers
     [Authorize]
     public class UserController : Controller
     {
+
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserRepository _userRepository;
         private readonly Mapper _mapper;
         private readonly SecurityService _securityService;
+        private readonly IMemoryCache _cache;
         public UserController(
             IUnitOfWork unitOfWork,
             IUserRepository userRepository,
             Mapper mapper,
-            SecurityService securityService )
+            SecurityService securityService,
+            IMemoryCache cache )
         {
             _unitOfWork = unitOfWork;
             _userRepository = userRepository;
             _mapper = mapper;
             _securityService = securityService;
+            _cache = cache;
         }
+
+        //private readonly Mediator _mediator;
+
+        //public UserController()
+        //{
+        //    _mediator = new Mediator(Assembly.GetExecutingAssembly());
+
+        //}
 
 
         //[HttpGet]
@@ -50,27 +63,30 @@ namespace AuthenticationWebApplication.Controllers
         //    }
         //}
 
-        //[HttpGet]
-        //[Route("user-data")]
-        //[ActionName("GetUserById")]
-        //public async Task<IActionResult> GetUserData()
-        //{
-        //    var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        [HttpGet]
+        [Route("user-data")]
+        [ActionName("GetUserById")]
+        public async Task<IActionResult> GetUserData( CancellationToken cancellationToken )
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-        //    if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out Guid userId))
-        //    {
-        //        return Unauthorized("Invalid token.");
-        //    }
+            if ( string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out Guid userId) )
+            {
+                return Unauthorized("Invalid token.");
+            }
 
-        //    var user = await _userRepository.GetByIdAsync(userId);
+            var result = await new GetUserProfileQueryHandler(
+                _unitOfWork
+                ).Handle(new GetUserProfileQuery(userId), cancellationToken);
 
-        //    if (user == null)
-        //    {
-        //        return NotFound("User not found.");
-        //    }
 
-        //    return Ok(user);
-        //}
+            if ( result.IsFailure )
+            {
+                return NotFound(result.Error);
+            }
+
+            return Ok(result.Value);
+        }
 
 
         [AllowAnonymous]
@@ -86,7 +102,6 @@ namespace AuthenticationWebApplication.Controllers
 
             var result = await new CreateUserCommandHandler(
                 _unitOfWork,
-                _userRepository,
                 _mapper,
                 _securityService
                 ).Handle(new CreateUserCommand(userDto), cancellationToken);
@@ -100,114 +115,138 @@ namespace AuthenticationWebApplication.Controllers
 
         }
 
-        //[HttpPut]
-        //public async Task<IActionResult> UpdateUserAsync([FromBody] UserDTO userDTO)
-        //{
-        //    var isUpdated = await _userRepository.UpdateUserAsync(userDTO);
-        //    if (isUpdated)
-        //    {
-        //        return Ok();
-        //    }
-        //    else
-        //    {
-        //        return BadRequest();
-        //    }
-        //}
+        [HttpPut]
+        [Route("user")]
+        public async Task<IActionResult> UpdateUserAsync( [FromBody] UserDTO userDto, CancellationToken cancellationToken )
+        {
+            var result = await new UpdateUserCommandHandler(
+                _userRepository
+                ).Handle(new UpdateUserCommand(userDto), cancellationToken);
 
-        //[HttpDelete]
-        //[Route("{userId:guid}")]
-        //[ActionName("DeleteById")]
-        //public async Task<IActionResult> DeleteUserAsync(Guid userId)
-        //{
-        //    var isDeleted = await _userRepository.DeleteUserAsync(userId);
-        //    if (isDeleted)
-        //    {
-        //        return Ok();
-        //    }
-        //    else
-        //    {
-        //        return NotFound();
-        //    }
-        //}
+            if ( result.IsFailure )
+                return BadRequest(result.Error);
 
-        //[HttpPost]
-        //[Route("enable-mfa")]
-        //[ActionName("GenerateUserQRCode")]
-        //public async Task<IActionResult> MfaGenerateAsync()
-        //{
-        //    var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return Ok();
+        }
 
-        //    if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out Guid userId))
-        //    {
-        //        return Unauthorized("Invalid token.");
-        //    }
+        [HttpDelete]
+        [Route("user/{userId:guid}")]
+        public async Task<IActionResult> DeleteUserAsync( Guid userId, CancellationToken cancellationToken )
+        {
+            var result = await new DeleteUserCommandHandler(
+                _unitOfWork 
+                ).Handle(new DeleteUserCommand(userId), cancellationToken);
 
-        //    var qrCodeBytes = await _userRepository.MfaGenerate(userId);
-        //    if (qrCodeBytes != null)
-        //    {
-        //        return File(qrCodeBytes, "image/png");
-        //    }
-        //    return BadRequest("MFA setup failed: User not found or MFA already enabled.");
-        //}
+            if ( result.IsFailure )
+                return NotFound(result.Error);
 
-        //[HttpPost]
-        //[Route("disable-mfa")]
-        //[ActionName("DisableUserMfa")]
-        //public async Task<IActionResult> MfaDisableAsync()
-        //{
-        //    var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-        //    if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out Guid userId))
-        //    {
-        //        return Unauthorized("Invalid token.");
-        //    }
-
-        //    var isDisabled = await _userRepository.MfaDisable(userId);
-        //    if (isDisabled)
-        //    {
-        //        return Ok();
-        //    }
-        //    return BadRequest("MFA disabling failed failed: User not found");
-        //}
-
-        //[AllowAnonymous]
-        //[HttpPost]
-        //[Route("login")]
-        //[EnableRateLimiting("loginLimiter")]
-        //public async Task<IActionResult> LoginAsync([FromBody] UserLoginDTO userLoginDTO)
-        //{
-        //    var loginResult = await _userRepository.LoginAsync(userLoginDTO);
-
-        //    if (loginResult.Token == null && !loginResult.RequiresMfa)
-        //    {
-        //        return Unauthorized("Invalid credentials.");
-        //    }
-
-        //    if (loginResult.RequiresMfa)
-        //    {
-        //        return Ok(new { message = "MFA required. Please verify using the 6-digit code.", challengeId = loginResult.ChallengeId });
-        //    }
-
-        //    return Ok(new { token = loginResult.Token });
-        //}
+            return Ok();
+        }
 
 
+        [HttpPost]
+        [Route("enable-mfa")]
+        [ActionName("GenerateUserQRCode")]
+        public async Task<IActionResult> MfaGenerateAsync( CancellationToken cancellationToken )
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-        //[AllowAnonymous]
-        //[HttpPost]
-        //[Route("verify-mfa")]
-        //[EnableRateLimiting("mfaLimiter")]
-        //public async Task<IActionResult> VerifyMfaAsync([FromBody] MfaVerificationDTO verificationDTO)
-        //{
-        //    string? token = await _userRepository.VerifyMfaAsync(verificationDTO);
+            if ( string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out Guid userId) )
+            {
+                return Unauthorized("Invalid token.");
+            }
 
-        //    if (string.IsNullOrEmpty(token))
-        //    {
-        //        return Unauthorized("Invalid MFA code.");
-        //    }
+            var result = await new EnableMfaOfUserCommandHandler(
+                _unitOfWork,
+                _securityService).Handle(new EnableMfaOfUserCommand(userId), cancellationToken);
 
-        //    return Ok(new { token });
-        //}
+            if ( result.IsFailure )
+                return BadRequest(result.Error);
+
+            return File(result.Value, "image/png");
+
+        }
+
+        [HttpPost]
+        [Route("disable-mfa")]
+        [ActionName("DisableUserMfa")]
+        public async Task<IActionResult> MfaDisableAsync( CancellationToken cancellationToken )
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if ( string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out Guid userId) )
+            {
+                return Unauthorized("Invalid token.");
+            }
+
+            var result = await new DisableMfaOfUserCommandHandler(
+                _unitOfWork
+                ).Handle(new DisableMfaOfUserCommand(userId), cancellationToken);
+
+
+            if ( result.IsFailure )
+                return BadRequest(result.Error);
+
+            return Ok();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("login")]
+        [EnableRateLimiting("loginLimiter")]
+        public async Task<IActionResult> LoginAsync( [FromBody] UserLoginDTO userLoginDTO, CancellationToken cancellationToken )
+        {
+
+            var result = await new LoginUserQueryHandler(
+                _userRepository,
+                _securityService,
+                _cache
+                ).Handle(new LoginUserQuery(userLoginDTO), cancellationToken);
+
+
+            if ( result.IsFailure )
+            {
+                return Unauthorized("Invalid credentials.");
+            }
+
+
+            var loginResult = result.Value;
+
+            if ( loginResult.RequiresMfa )
+            {
+                return Ok(new
+                {
+                    message = "MFA required. Please verify using the 6-digit code.",
+                    challengeId = loginResult.ChallengeId
+                });
+            }
+
+            return Ok(new { token = loginResult.Token });
+        }
+
+
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("verify-mfa")]
+        [EnableRateLimiting("mfaLimiter")]
+        public async Task<IActionResult> VerifyMfaAsync( [FromBody] MfaVerificationDTO verificationDTO, CancellationToken cancellationToken)
+        {
+
+            var result = await new VerifyMfaOfUserQueryHandler(
+                _unitOfWork,
+                _securityService,
+                _cache
+            ).Handle(new VerifyMfaOfUserQuery(verificationDTO), cancellationToken);
+
+
+            if ( result.IsFailure )
+            {
+                return Unauthorized(result.Error);
+            }
+
+            return Ok(result);
+        }
 
     }
 

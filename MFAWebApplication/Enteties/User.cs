@@ -15,3 +15,4 @@ public class User : BaseEntity
     public string? MfaSecretKey { get; set; }
     public bool IsMfaEnabled { get; set; } = false;
 }
+    

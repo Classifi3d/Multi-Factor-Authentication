@@ -1,13 +1,10 @@
-﻿using AuthenticationWebApplication.Context;
-using AuthenticationWebApplication.DTOs;
+﻿using AuthenticationWebApplication.DTOs;
 using AuthenticationWebApplication.Enteties;
-using AuthenticationWebApplication.Repository;
 using AutoMapper;
 using CSharpFunctionalExtensions;
 using MFAWebApplication.Abstraction;
 using MFAWebApplication.Abstraction.Messaging;
 using MFAWebApplication.Services;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace MFAWebApplication.CommandsAndQueries.Users;
 
@@ -17,16 +14,14 @@ public sealed record CreateUserCommand( UserDTO userDto ) : ICommand;
 internal sealed class CreateUserCommandHandler : ICommandHandler<CreateUserCommand>
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IUserRepository _userRepository;
-    private readonly Mapper _mapper;
     private readonly SecurityService _securityService;
+    private readonly Mapper _mapper;
 
-    public CreateUserCommandHandler( IUnitOfWork unitOfWork, IUserRepository userRepository, Mapper mapper, SecurityService securityService )
+    public CreateUserCommandHandler( IUnitOfWork unitOfWork, Mapper mapper, SecurityService securityService )
     {
         _unitOfWork = unitOfWork;
-        _userRepository = userRepository;
-        _mapper = mapper;
         _securityService = securityService;
+        _mapper = mapper;
     }
 
     public async Task<Result> Handle( CreateUserCommand request, CancellationToken cancellationToken )
@@ -42,7 +37,7 @@ internal sealed class CreateUserCommandHandler : ICommandHandler<CreateUserComma
         user.CreateDate = DateTime.UtcNow;
         user.UpdateDate = DateTime.UtcNow;
 
-        await _userRepository.AddAsync(user);
+        await _unitOfWork.Users.AddAsync(user);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
 

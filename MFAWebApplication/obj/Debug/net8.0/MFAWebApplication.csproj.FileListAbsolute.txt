@@ -256,5 +256,3 @@ C:\Users\danut\Desktop\Projects\Multi-Factor-Authentication\MFAWebApplication\ob
 C:\Users\danut\Desktop\Projects\Multi-Factor-Authentication\MFAWebApplication\obj\Debug\net8.0\MFAWebApplication.genruntimeconfig.cache
 C:\Users\danut\Desktop\Projects\Multi-Factor-Authentication\MFAWebApplication\obj\Debug\net8.0\ref\MFAWebApplication.dll
 C:\Users\danut\Desktop\Projects\Multi-Factor-Authentication\MFAWebApplication\bin\Debug\net8.0\CSharpFunctionalExtensions.dll
-C:\Users\danut\Desktop\Projects\Multi-Factor-Authentication\MFAWebApplication\bin\Debug\net8.0\MediatR.dll
-C:\Users\danut\Desktop\Projects\Multi-Factor-Authentication\MFAWebApplication\bin\Debug\net8.0\MediatR.Contracts.dll

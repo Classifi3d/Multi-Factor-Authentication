@@ -1,5 +1,4 @@
 ﻿using CSharpFunctionalExtensions;
-using MediatR;
 
 namespace MFAWebApplication.Abstraction.Messaging;
 

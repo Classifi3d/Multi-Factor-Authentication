@@ -132,7 +132,6 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<SecurityService>();
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
