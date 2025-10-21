@@ -1,4 +1,5 @@
 ﻿
+using AuthenticationWebApplication.Enteties;
 using CSharpFunctionalExtensions;
 using MFAWebApplication.Abstraction;
 using MFAWebApplication.Abstraction.Messaging;
@@ -9,9 +10,9 @@ using OtpNet;
 
 namespace MFAWebApplication.CommandsAndQueries.Users;
 
-public sealed record VerifyMfaOfUserQuery( MfaVerificationDTO verificationDto ) : ICommand<string>;
+public sealed record VerifyMfaOfUserQuery( MfaVerificationDTO verificationDto ) : IQuery<string>;
 
-internal sealed class VerifyMfaOfUserQueryHandler : ICommandHandler<VerifyMfaOfUserQuery, string>
+internal sealed class VerifyMfaOfUserQueryHandler : IQueryHandler<VerifyMfaOfUserQuery, string>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -40,7 +41,7 @@ internal sealed class VerifyMfaOfUserQueryHandler : ICommandHandler<VerifyMfaOfU
             return Result.Failure<string>("Challenge token expired or invalid");
         }
 
-        var user = await _unitOfWork.Users.GetByIdAsync(userId, cancellationToken);
+        var user = await _unitOfWork.Repository<User>().GetByIdAsync(userId, cancellationToken);
 
         if ( user is null )
             return Result.Failure<string>("User not found");

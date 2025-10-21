@@ -14,10 +14,10 @@ public sealed record CreateUserCommand( UserDTO userDto ) : ICommand;
 internal sealed class CreateUserCommandHandler : ICommandHandler<CreateUserCommand>
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly SecurityService _securityService;
+    private readonly ISecurityService _securityService;
     private readonly Mapper _mapper;
 
-    public CreateUserCommandHandler( IUnitOfWork unitOfWork, Mapper mapper, SecurityService securityService )
+    public CreateUserCommandHandler( IUnitOfWork unitOfWork, Mapper mapper, ISecurityService securityService )
     {
         _unitOfWork = unitOfWork;
         _securityService = securityService;
@@ -37,7 +37,7 @@ internal sealed class CreateUserCommandHandler : ICommandHandler<CreateUserComma
         user.CreateDate = DateTime.UtcNow;
         user.UpdateDate = DateTime.UtcNow;
 
-        await _unitOfWork.Users.AddAsync(user);
+        await _unitOfWork.Repository<User>().AddAsync(user);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
 

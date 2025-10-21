@@ -23,7 +23,7 @@ internal sealed class GetUserProfileQueryHandler
         GetUserProfileQuery request,
         CancellationToken cancellationToken )
     {
-        var user = await _unitOfWork.Users.GetByIdAsync(request.UserId, cancellationToken);
+        var user = await _unitOfWork.Repository<User>().GetByIdAsync(request.UserId, cancellationToken);
 
         if ( user is null )
             return Result.Failure<User>("User not found");

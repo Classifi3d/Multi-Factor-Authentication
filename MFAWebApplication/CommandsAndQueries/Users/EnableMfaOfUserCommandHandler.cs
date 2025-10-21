@@ -1,4 +1,5 @@
-﻿using CSharpFunctionalExtensions;
+﻿using AuthenticationWebApplication.Enteties;
+using CSharpFunctionalExtensions;
 using MFAWebApplication.Abstraction;
 using MFAWebApplication.Abstraction.Messaging;
 using MFAWebApplication.Services;
@@ -12,13 +13,17 @@ public sealed record EnableMfaOfUserCommand( Guid userId ) : ICommand<byte[]>;
 internal sealed class EnableMfaOfUserCommandHandler : ICommandHandler<EnableMfaOfUserCommand, byte[]>
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly SecurityService _securityService;
+    private readonly ISecurityService _securityService;
+    private Guid userId;
 
-
+    public EnableMfaOfUserCommandHandler( Guid userId )
+    {
+        this.userId = userId;
+    }
 
     public EnableMfaOfUserCommandHandler( 
         IUnitOfWork unitOfWork, 
-        SecurityService securityService )
+        ISecurityService securityService )
     {
         _unitOfWork = unitOfWork;
         _securityService = securityService;
@@ -26,7 +31,7 @@ internal sealed class EnableMfaOfUserCommandHandler : ICommandHandler<EnableMfaO
 
     public async Task<Result<byte[]>> Handle( EnableMfaOfUserCommand request, CancellationToken cancellationToken )
     {
-        var user = await _unitOfWork.Users.GetByIdAsync(request.userId, cancellationToken);
+        var user = await _unitOfWork.Repository<User>().GetByIdAsync(request.userId, cancellationToken);
 
         if ( user is null )
             return Result.Failure<byte[]>("User not found");
@@ -57,7 +62,7 @@ internal sealed class EnableMfaOfUserCommandHandler : ICommandHandler<EnableMfaO
         user.MfaSecretKey = secretKey;
         user.IsMfaEnabled = true;
 
-        _unitOfWork.Users.Update(user);
+        _unitOfWork.Repository<User>().Update(user);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
 

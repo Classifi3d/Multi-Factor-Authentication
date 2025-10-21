@@ -1,6 +1,7 @@
 ﻿using AuthenticationWebApplication.DTOs;
-using AuthenticationWebApplication.Repository;
+using AuthenticationWebApplication.Enteties;
 using CSharpFunctionalExtensions;
+using MFAWebApplication.Abstraction;
 using MFAWebApplication.Abstraction.Messaging;
 using MFAWebApplication.DTOs;
 using MFAWebApplication.Services;
@@ -12,17 +13,17 @@ public sealed record LoginUserQuery( UserLoginDTO userLoginDto ) : IQuery<LoginS
 
 internal sealed class LoginUserQueryHandler : IQueryHandler<LoginUserQuery, LoginSecurityDTO>
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly ISecurityService _securityService;
     private readonly IMemoryCache _cache;
 
     public LoginUserQueryHandler(
-        IUserRepository userRepository,
+        IUnitOfWork unitOfWork,
         ISecurityService securityService,
         IMemoryCache cache )
 
     {
-        _userRepository = userRepository;
+        _unitOfWork = unitOfWork;
         _securityService = securityService;
         _cache = cache;
     }
@@ -32,7 +33,7 @@ internal sealed class LoginUserQueryHandler : IQueryHandler<LoginUserQuery, Logi
         var loginDto = request.userLoginDto;
         var userEmail = loginDto.Email;
 
-        var user = await _userRepository.GetByEmailAsync(userEmail, cancellationToken);
+        var user = await _unitOfWork.Repository<User>().GetByPropertyAsync(u => u.Email,userEmail, cancellationToken);
         if ( user == null )
         {
             return Result.Failure<LoginSecurityDTO>("Invalid credentials");

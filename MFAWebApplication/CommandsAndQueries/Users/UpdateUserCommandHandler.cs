@@ -1,6 +1,6 @@
 ﻿using AuthenticationWebApplication.DTOs;
-using AuthenticationWebApplication.Repository;
 using CSharpFunctionalExtensions;
+using MFAWebApplication.Abstraction;
 using MFAWebApplication.Abstraction.Messaging;
 
 namespace MFAWebApplication.CommandsAndQueries.Users;
@@ -11,11 +11,11 @@ public sealed record UpdateUserCommand( UserDTO User ) : ICommand;
 internal sealed class UpdateUserCommandHandler
     : ICommandHandler<UpdateUserCommand>
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public UpdateUserCommandHandler( IUserRepository userRepository )
+    public UpdateUserCommandHandler( IUnitOfWork unitOfWork )
     {
-        _userRepository = userRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result> Handle( UpdateUserCommand request, CancellationToken cancellationToken )

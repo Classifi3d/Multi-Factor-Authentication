@@ -1,4 +1,5 @@
-﻿using CSharpFunctionalExtensions;
+﻿using AuthenticationWebApplication.Enteties;
+using CSharpFunctionalExtensions;
 using MFAWebApplication.Abstraction;
 using MFAWebApplication.Abstraction.Messaging;
 
@@ -19,7 +20,7 @@ internal sealed class DisableMfaOfUserCommandHandler : ICommandHandler<DisableMf
 
     public async Task<Result> Handle( DisableMfaOfUserCommand request, CancellationToken cancellationToken )
     {
-        var user = await _unitOfWork.Users.GetByIdAsync(request.userId, cancellationToken);
+        var user = await _unitOfWork.Repository<User>().GetByIdAsync(request.userId, cancellationToken);
 
         if ( user is null )
             return Result.Failure("User not found");
@@ -30,7 +31,7 @@ internal sealed class DisableMfaOfUserCommandHandler : ICommandHandler<DisableMf
         user.MfaSecretKey = null;
         user.IsMfaEnabled = true;
 
-        _unitOfWork.Users.Update(user);
+        _unitOfWork.Repository<User>().Update(user);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success();

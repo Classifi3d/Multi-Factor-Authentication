@@ -1,15 +1,15 @@
 using AuthenticationWebApplication.Context;
-using AuthenticationWebApplication.Repository;
 using MFAWebApplication.Abstraction;
-using MFAWebApplication.CommandsAndQueries.Users;
+using MFAWebApplication.Abstraction.Messaging;
+using MFAWebApplication.Configurations;
+using MFAWebApplication.Repository;
 using MFAWebApplication.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Filters;
+using System.Reflection;
 using System.Text;
-using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -34,43 +34,9 @@ builder
         options.OperationFilter<SecurityRequirementsOperationFilter>();
     });
 
-// Endpoint Rate Limiting
-builder.Services.AddRateLimiter(options =>
-{
-    options.AddFixedWindowLimiter("registerLimiter", opt =>
-    {
-        opt.PermitLimit = 5; // Max 5 registrations per minute
-        opt.Window = TimeSpan.FromMinutes(1);
-        opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
-        opt.QueueLimit = 2; // Allows 2 extra attempts to queue
-    });
+// Middleware Endpoint Rate Limiting
+builder.Services.AddCustomRateLimiters();
 
-    options.AddTokenBucketLimiter("loginLimiter", opt =>
-    {
-        opt.TokenLimit = 10;  // Max 10 login attempts at any time
-        opt.TokensPerPeriod = 2; // Refill 2 tokens every 10 seconds
-        opt.ReplenishmentPeriod = TimeSpan.FromSeconds(10);
-        opt.AutoReplenishment = true;
-        opt.QueueLimit = 3;
-        opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
-    });
-
-    options.AddSlidingWindowLimiter("mfaLimiter", opt =>
-    {
-        opt.PermitLimit = 3; // Max 3 MFA attempts within 30 seconds
-        opt.Window = TimeSpan.FromSeconds(30);
-        opt.SegmentsPerWindow = 3; // MFA attempts spread over 3 segments (10 sec each)
-        opt.QueueLimit = 1; // Only 1 additional attempt in queue
-    });
-
-    options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
-        RateLimitPartition.GetFixedWindowLimiter("globalLimiter", _ => new FixedWindowRateLimiterOptions
-        {
-            PermitLimit = 100, // Max 100 requests per minute per user
-            Window = TimeSpan.FromMinutes(1)
-        })
-    );
-});
 
 // Chaching for Challange Codes
 builder.Services.AddMemoryCache();
@@ -126,11 +92,30 @@ builder
 
 
 // Depedency Injections
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddScoped<ISecurityService, SecurityService>();
 builder.Services.AddSingleton(MapperConfiguration.InitializeAutomapper());
 
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<SecurityService>();
+builder.Services.Scan(scan => scan
+    .FromAssemblies(Assembly.GetExecutingAssembly())
+    .AddClasses(classes => classes.AssignableTo(typeof(ICommandHandler<>)))
+        .AsImplementedInterfaces()
+        .WithScopedLifetime()
+    .AddClasses(classes => classes.AssignableTo(typeof(ICommandHandler<,>)))
+        .AsImplementedInterfaces()
+        .WithScopedLifetime()
+    .AddClasses(classes => classes.AssignableTo(typeof(IQueryHandler<,>)))
+        .AsImplementedInterfaces()
+        .WithScopedLifetime()
+);
+
+builder.Services.AddScoped<IMediator>(sp =>
+    new Mediator(Assembly.GetExecutingAssembly())
+);
+
+
 
 var app = builder.Build();
 
@@ -141,7 +126,7 @@ if ( app.Environment.IsDevelopment() )
     app.UseSwaggerUI();
 }
 
-
+app.UseRateLimiter();
 app.UseCors(allowSpecificOrigin);
 app.UseHttpsRedirection();
 app.UseAuthorization();
