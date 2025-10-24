@@ -10,8 +10,6 @@ public class User : BaseEntity
     public string Username { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public string Phone {  get; set; } = string.Empty;
-    public UserGenderEnum Gender { get; set;  }
-
     public string? MfaSecretKey { get; set; }
     public bool IsMfaEnabled { get; set; } = false;
 }

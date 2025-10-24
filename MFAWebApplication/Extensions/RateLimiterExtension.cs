@@ -3,9 +3,9 @@ using System.Threading.RateLimiting;
 
 namespace MFAWebApplication.Configurations;
 
-public static class RateLimiterConfiguration
+public static class RateLimiterExtension
 {
-    public static void AddCustomRateLimiters( this IServiceCollection services )
+    public static IServiceCollection AddCustomRateLimiters( this IServiceCollection services )
     {
         services.AddRateLimiter(options =>
         {
@@ -47,5 +47,7 @@ public static class RateLimiterConfiguration
                 })
             );
         });
+
+        return services;
     }
 }

@@ -1,14 +1,10 @@
 using AuthenticationWebApplication.Context;
-using MFAWebApplication.Abstraction;
-using MFAWebApplication.Abstraction.Messaging;
 using MFAWebApplication.Configurations;
-using MFAWebApplication.Repository;
-using MFAWebApplication.Services;
+using MFAWebApplication.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Filters;
-using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,9 +33,6 @@ builder
 // Middleware Endpoint Rate Limiting
 builder.Services.AddCustomRateLimiters();
 
-
-// Chaching for Challange Codes
-builder.Services.AddMemoryCache();
 
 
 // JWT Token
@@ -92,29 +85,7 @@ builder
 
 
 // Depedency Injections
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-builder.Services.AddScoped<ISecurityService, SecurityService>();
-builder.Services.AddSingleton(MapperConfiguration.InitializeAutomapper());
-
-builder.Services.Scan(scan => scan
-    .FromAssemblies(Assembly.GetExecutingAssembly())
-    .AddClasses(classes => classes.AssignableTo(typeof(ICommandHandler<>)))
-        .AsImplementedInterfaces()
-        .WithScopedLifetime()
-    .AddClasses(classes => classes.AssignableTo(typeof(ICommandHandler<,>)))
-        .AsImplementedInterfaces()
-        .WithScopedLifetime()
-    .AddClasses(classes => classes.AssignableTo(typeof(IQueryHandler<,>)))
-        .AsImplementedInterfaces()
-        .WithScopedLifetime()
-);
-
-builder.Services.AddScoped<IMediator>(sp =>
-    new Mediator(Assembly.GetExecutingAssembly())
-);
-
+builder.Services.AddApplicationServices();
 
 
 var app = builder.Build();

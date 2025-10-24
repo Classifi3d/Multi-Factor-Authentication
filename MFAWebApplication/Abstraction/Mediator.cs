@@ -1,68 +1,73 @@
 ﻿using CSharpFunctionalExtensions;
-using MFAWebApplication.Abstraction;
 using MFAWebApplication.Abstraction.Messaging;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+
+namespace MFAWebApplication.Abstraction;
 
 public class Mediator : IMediator
 {
-    private readonly Dictionary<Type, Type> _handlers = new();
+    private readonly IServiceProvider _serviceProvider;
+    private readonly Dictionary<Type, Type> _commandHandlers = new();
+    private readonly Dictionary<Type, Type> _commandWithResultHandlers = new();
+    private readonly Dictionary<Type, Type> _queryHandlers = new();
 
-    public Mediator( Assembly assembly )
+    public Mediator(Assembly assembly, IServiceProvider serviceProvider)
     {
-        // Find all non-abstract, non-interface types
-        var handlerTypes = assembly.GetTypes()
-            .Where(t => !t.IsAbstract && !t.IsInterface)
-            .SelectMany(t => t.GetInterfaces()
-                .Where(i => i.IsGenericType)
-                .Select(i => new { Handler = t, Interface = i }));
+        _serviceProvider = serviceProvider;
 
-        foreach ( var h in handlerTypes )
+        var types = assembly.GetTypes()
+            .Where(t => !t.IsAbstract && !t.IsInterface);
+
+        foreach (var type in types)
         {
-            var def = h.Interface.GetGenericTypeDefinition();
-
-            if ( def == typeof(ICommandHandler<>)
-             || def == typeof(ICommandHandler<,>)
-             || def == typeof(IQueryHandler<,>) )
+            foreach (var i in type.GetInterfaces())
             {
-                var requestType = h.Interface.GetGenericArguments()[0];
-                _handlers[requestType] = h.Handler;
+                if (i.IsGenericType)
+                {
+                    var definition = i.GetGenericTypeDefinition();
+                    var args = i.GetGenericArguments();
+
+                    if (definition == typeof(ICommandHandler<>))
+                        _commandHandlers[args[0]] = type;
+
+                    else if (definition == typeof(ICommandHandler<,>))
+                        _commandWithResultHandlers[args[0]] = type;
+
+                    else if (definition == typeof(IQueryHandler<,>))
+                        _queryHandlers[args[0]] = type;
+                }
             }
         }
     }
 
-    public async Task<Result> Send<TCommand>( TCommand command, CancellationToken cancellationToken )
+    public async Task<Result> Send<TCommand>(TCommand command, CancellationToken cancellationToken)
         where TCommand : ICommand
     {
-        if ( !_handlers.TryGetValue(typeof(TCommand), out var handlerType) )
+        if (!_commandHandlers.TryGetValue(typeof(TCommand), out var handlerType))
             throw new InvalidOperationException($"No handler found for {typeof(TCommand).Name}");
 
-        var handler = Activator.CreateInstance(handlerType)
-                      ?? throw new InvalidOperationException($"Could not create handler {handlerType.Name}");
-
-        return await ((ICommandHandler<TCommand>) handler).Handle(command, cancellationToken);
+        var handler = _serviceProvider.GetRequiredService(handlerType);
+        return await ((ICommandHandler<TCommand>)handler).Handle(command, cancellationToken);
     }
 
-    public async Task<Result<TResult>> Send<TCommand, TResult>( TCommand command, CancellationToken cancellationToken )
+    public async Task<Result<TResult>> Send<TCommand, TResult>(TCommand command, CancellationToken cancellationToken)
         where TCommand : ICommand<TResult>
     {
-        if ( !_handlers.TryGetValue(typeof(TCommand), out var handlerType) )
+        if (!_commandWithResultHandlers.TryGetValue(typeof(TCommand), out var handlerType))
             throw new InvalidOperationException($"No handler found for {typeof(TCommand).Name}");
 
-        var handler = Activator.CreateInstance(handlerType)
-                      ?? throw new InvalidOperationException($"Could not create handler {handlerType.Name}");
-
-        return await ((ICommandHandler<TCommand, TResult>) handler).Handle(command, cancellationToken);
+        var handler = _serviceProvider.GetRequiredService(handlerType);
+        return await ((ICommandHandler<TCommand, TResult>)handler).Handle(command, cancellationToken);
     }
 
-    public async Task<Result<TResult>> Query<TQuery, TResult>( TQuery query, CancellationToken cancellationToken )
+    public async Task<Result<TResult>> Query<TQuery, TResult>(TQuery query, CancellationToken cancellationToken)
         where TQuery : IQuery<TResult>
     {
-        if ( !_handlers.TryGetValue(typeof(TQuery), out var handlerType) )
+        if (!_queryHandlers.TryGetValue(typeof(TQuery), out var handlerType))
             throw new InvalidOperationException($"No handler found for {typeof(TQuery).Name}");
 
-        var handler = Activator.CreateInstance(handlerType)
-                      ?? throw new InvalidOperationException($"Could not create handler {handlerType.Name}");
-
-        return await ((IQueryHandler<TQuery, TResult>) handler).Handle(query, cancellationToken);
+        var handler = _serviceProvider.GetRequiredService(handlerType);
+        return await ((IQueryHandler<TQuery, TResult>)handler).Handle(query, cancellationToken);
     }
 }
