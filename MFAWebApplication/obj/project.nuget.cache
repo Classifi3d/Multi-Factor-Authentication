@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ncmgsZ3jgiQ=",
+  "dgSpecHash": "6nw4fv1aYZQ=",
   "success": true,
-  "projectFilePath": "C:\\Users\\danut\\Desktop\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\MFAWebApplication.csproj",
+  "projectFilePath": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\MFAWebApplication.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\danut\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\danut\\.nuget\\packages\\csharpfunctionalextensions\\3.6.0\\csharpfunctionalextensions.3.6.0.nupkg.sha512",

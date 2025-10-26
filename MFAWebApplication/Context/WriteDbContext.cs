@@ -7,14 +7,24 @@ public class WriteDbContext : DbContext
 {
     public WriteDbContext( DbContextOptions<WriteDbContext> options ) : base(options) { }
 
+    public DbSet<User> Users => Set<User>();
+
     protected override void OnModelCreating( ModelBuilder modelBuilder )
     {
-        modelBuilder.Entity<User>().ToTable("User");
-        modelBuilder.Entity<User>().HasKey(x => x.Id);
-        modelBuilder.Entity<User>().HasIndex(x => x.Id).IsUnique();
-        modelBuilder.Entity<User>().HasIndex(x => x.Email).IsUnique();
+        base.OnModelCreating(modelBuilder);
     }
 
-    public DbSet<User> User { get; set; } = null!;
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        foreach (var entry in ChangeTracker.Entries<User>())
+        {
+            if (entry.State == EntityState.Modified)
+            {
+                entry.Entity.ConcurencyIndex++;
+            }
+        }
+
+        return await base.SaveChangesAsync(cancellationToken);
+    }
 
 }

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MFAWebApplication")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+92684b148f54791fe90ff9dde90fb463adec55be")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7ccd0ae31e2bfb6beb6a1e5a45152f34e3540668")]
 [assembly: System.Reflection.AssemblyProductAttribute("MFAWebApplication")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MFAWebApplication")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

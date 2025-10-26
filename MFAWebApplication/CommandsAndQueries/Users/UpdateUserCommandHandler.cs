@@ -1,6 +1,5 @@
 ﻿using AuthenticationWebApplication.DTOs;
 using CSharpFunctionalExtensions;
-using MFAWebApplication.Abstraction;
 using MFAWebApplication.Abstraction.Messaging;
 
 namespace MFAWebApplication.CommandsAndQueries.Users;

@@ -1,38 +1,66 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\danut\\Desktop\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\",
+  "WorkspaceRootPath": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|c:\\users\\danut\\desktop\\projects\\multi-factor-authentication\\mfawebapplication\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|c:\\users\\danut\\projects\\multi-factor-authentication\\mfawebapplication\\abstraction\\unitofwork\\readunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|solutionrelative:abstraction\\unitofwork\\readunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|c:\\users\\danut\\desktop\\projects\\multi-factor-authentication\\mfawebapplication\\commandsandqueries\\users\\createusercommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|c:\\users\\danut\\projects\\multi-factor-authentication\\mfawebapplication\\abstraction\\unitofwork\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|solutionrelative:abstraction\\unitofwork\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|c:\\users\\danut\\projects\\multi-factor-authentication\\mfawebapplication\\abstraction\\repository\\repository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|solutionrelative:abstraction\\repository\\repository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|c:\\users\\danut\\projects\\multi-factor-authentication\\mfawebapplication\\abstraction\\repository\\readrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|solutionrelative:abstraction\\repository\\readrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|c:\\users\\danut\\projects\\multi-factor-authentication\\mfawebapplication\\abstraction\\repository\\irepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|solutionrelative:abstraction\\repository\\irepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|c:\\users\\danut\\projects\\multi-factor-authentication\\mfawebapplication\\commandsandqueries\\users\\loginuserqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|solutionrelative:commandsandqueries\\users\\loginuserqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|c:\\users\\danut\\projects\\multi-factor-authentication\\mfawebapplication\\commandsandqueries\\users\\getuserprofilequeryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|solutionrelative:commandsandqueries\\users\\getuserprofilequeryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|c:\\users\\danut\\projects\\multi-factor-authentication\\mfawebapplication\\commandsandqueries\\users\\enablemfaofusercommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|solutionrelative:commandsandqueries\\users\\enablemfaofusercommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|c:\\users\\danut\\projects\\multi-factor-authentication\\mfawebapplication\\commandsandqueries\\users\\disablemfaofusercommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|solutionrelative:commandsandqueries\\users\\disablemfaofusercommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|c:\\users\\danut\\projects\\multi-factor-authentication\\mfawebapplication\\abstraction\\unitofwork\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|solutionrelative:abstraction\\unitofwork\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|c:\\users\\danut\\projects\\multi-factor-authentication\\mfawebapplication\\abstraction\\unitofwork\\ireadunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|solutionrelative:abstraction\\unitofwork\\ireadunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|c:\\users\\danut\\projects\\multi-factor-authentication\\mfawebapplication\\commandsandqueries\\users\\deleteusercommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|solutionrelative:commandsandqueries\\users\\deleteusercommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|c:\\users\\danut\\projects\\multi-factor-authentication\\mfawebapplication\\commandsandqueries\\users\\createusercommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|solutionrelative:commandsandqueries\\users\\createusercommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|c:\\users\\danut\\desktop\\projects\\multi-factor-authentication\\mfawebapplication\\extensions\\ratelimiterextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|solutionrelative:extensions\\ratelimiterextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|c:\\users\\danut\\projects\\multi-factor-authentication\\mfawebapplication\\abstraction\\repository\\ireadrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|solutionrelative:abstraction\\repository\\ireadrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|c:\\users\\danut\\desktop\\projects\\multi-factor-authentication\\mfawebapplication\\extensions\\servicecollectionextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|solutionrelative:extensions\\servicecollectionextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|c:\\users\\danut\\desktop\\projects\\multi-factor-authentication\\mfawebapplication\\abstraction\\imediator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|solutionrelative:abstraction\\imediator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|c:\\users\\danut\\desktop\\projects\\multi-factor-authentication\\mfawebapplication\\abstraction\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|solutionrelative:abstraction\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|c:\\users\\danut\\desktop\\projects\\multi-factor-authentication\\mfawebapplication\\commandsandqueries\\users\\verifymfaofuserqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|solutionrelative:commandsandqueries\\users\\verifymfaofuserqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|c:\\users\\danut\\desktop\\projects\\multi-factor-authentication\\mfawebapplication\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|solutionrelative:controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|c:\\users\\danut\\projects\\multi-factor-authentication\\mfawebapplication\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACD0E321-8C57-4CF9-9CDF-5ECF34B5BB65}|MFAWebApplication.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -41,8 +69,8 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 433,
-          "SelectedChildIndex": 4,
+          "DockedWidth": 571,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,106 +78,197 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ServiceCollectionExtension.cs",
-              "DocumentMoniker": "C:\\Users\\danut\\Desktop\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Extensions\\ServiceCollectionExtension.cs",
-              "RelativeDocumentMoniker": "Extensions\\ServiceCollectionExtension.cs",
-              "ToolTip": "C:\\Users\\danut\\Desktop\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Extensions\\ServiceCollectionExtension.cs",
-              "RelativeToolTip": "Extensions\\ServiceCollectionExtension.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAAwDcAAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-22T18:00:25.461Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "RateLimiterExtension.cs",
-              "DocumentMoniker": "C:\\Users\\danut\\Desktop\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Extensions\\RateLimiterExtension.cs",
-              "RelativeDocumentMoniker": "Extensions\\RateLimiterExtension.cs",
-              "ToolTip": "C:\\Users\\danut\\Desktop\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Extensions\\RateLimiterExtension.cs*",
-              "RelativeToolTip": "Extensions\\RateLimiterExtension.cs*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-22T17:47:06.788Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CreateUserCommandHandler.cs",
-              "DocumentMoniker": "C:\\Users\\danut\\Desktop\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\CommandsAndQueries\\Users\\CreateUserCommandHandler.cs",
-              "RelativeDocumentMoniker": "CommandsAndQueries\\Users\\CreateUserCommandHandler.cs",
-              "ToolTip": "C:\\Users\\danut\\Desktop\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\CommandsAndQueries\\Users\\CreateUserCommandHandler.cs",
-              "RelativeToolTip": "CommandsAndQueries\\Users\\CreateUserCommandHandler.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-22T17:17:31.84Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\danut\\Desktop\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\danut\\Desktop\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAEsAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-22T17:18:11.974Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "UnitOfWork.cs",
-              "DocumentMoniker": "C:\\Users\\danut\\Desktop\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Abstraction\\UnitOfWork.cs",
-              "RelativeDocumentMoniker": "Abstraction\\UnitOfWork.cs",
-              "ToolTip": "C:\\Users\\danut\\Desktop\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Abstraction\\UnitOfWork.cs",
-              "RelativeToolTip": "Abstraction\\UnitOfWork.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Title": "LoginUserQueryHandler.cs",
+              "DocumentMoniker": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\CommandsAndQueries\\Users\\LoginUserQueryHandler.cs",
+              "RelativeDocumentMoniker": "CommandsAndQueries\\Users\\LoginUserQueryHandler.cs",
+              "ToolTip": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\CommandsAndQueries\\Users\\LoginUserQueryHandler.cs",
+              "RelativeToolTip": "CommandsAndQueries\\Users\\LoginUserQueryHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvxUAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-22T17:16:00.419Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "IMediator.cs",
-              "DocumentMoniker": "C:\\Users\\danut\\Desktop\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Abstraction\\IMediator.cs",
-              "RelativeDocumentMoniker": "Abstraction\\IMediator.cs",
-              "ToolTip": "C:\\Users\\danut\\Desktop\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Abstraction\\IMediator.cs",
-              "RelativeToolTip": "Abstraction\\IMediator.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-22T17:09:48.642Z",
+              "WhenOpened": "2025-10-26T21:29:54.339Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "VerifyMfaOfUserQueryHandler.cs",
-              "DocumentMoniker": "C:\\Users\\danut\\Desktop\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\CommandsAndQueries\\Users\\VerifyMfaOfUserQueryHandler.cs",
-              "RelativeDocumentMoniker": "CommandsAndQueries\\Users\\VerifyMfaOfUserQueryHandler.cs",
-              "ToolTip": "C:\\Users\\danut\\Desktop\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\CommandsAndQueries\\Users\\VerifyMfaOfUserQueryHandler.cs",
-              "RelativeToolTip": "CommandsAndQueries\\Users\\VerifyMfaOfUserQueryHandler.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAqwBoAAAAFAAAAAAAAAA==",
+              "Title": "GetUserProfileQueryHandler.cs",
+              "DocumentMoniker": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\CommandsAndQueries\\Users\\GetUserProfileQueryHandler.cs",
+              "RelativeDocumentMoniker": "CommandsAndQueries\\Users\\GetUserProfileQueryHandler.cs",
+              "ToolTip": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\CommandsAndQueries\\Users\\GetUserProfileQueryHandler.cs",
+              "RelativeToolTip": "CommandsAndQueries\\Users\\GetUserProfileQueryHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T21:36:52.435Z",
+              "WhenOpened": "2025-10-26T21:27:55.991Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "UserController.cs",
-              "DocumentMoniker": "C:\\Users\\danut\\Desktop\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Controllers\\UserController.cs",
-              "RelativeDocumentMoniker": "Controllers\\UserController.cs",
-              "ToolTip": "C:\\Users\\danut\\Desktop\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Controllers\\UserController.cs",
-              "RelativeToolTip": "Controllers\\UserController.cs",
-              "ViewState": "AgIAADMAAAAAAAAAAAAowEAAAAAAAAAAAAAAAA==",
+              "Title": "EnableMfaOfUserCommandHandler.cs",
+              "DocumentMoniker": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\CommandsAndQueries\\Users\\EnableMfaOfUserCommandHandler.cs",
+              "RelativeDocumentMoniker": "CommandsAndQueries\\Users\\EnableMfaOfUserCommandHandler.cs",
+              "ToolTip": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\CommandsAndQueries\\Users\\EnableMfaOfUserCommandHandler.cs",
+              "RelativeToolTip": "CommandsAndQueries\\Users\\EnableMfaOfUserCommandHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvw4AAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T21:18:47.743Z",
+              "WhenOpened": "2025-10-26T21:27:45.638Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "DisableMfaOfUserCommandHandler.cs",
+              "DocumentMoniker": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\CommandsAndQueries\\Users\\DisableMfaOfUserCommandHandler.cs",
+              "RelativeDocumentMoniker": "CommandsAndQueries\\Users\\DisableMfaOfUserCommandHandler.cs",
+              "ToolTip": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\CommandsAndQueries\\Users\\DisableMfaOfUserCommandHandler.cs",
+              "RelativeToolTip": "CommandsAndQueries\\Users\\DisableMfaOfUserCommandHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwsAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-26T21:27:35.961Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "DeleteUserCommandHandler.cs",
+              "DocumentMoniker": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\CommandsAndQueries\\Users\\DeleteUserCommandHandler.cs",
+              "RelativeDocumentMoniker": "CommandsAndQueries\\Users\\DeleteUserCommandHandler.cs",
+              "ToolTip": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\CommandsAndQueries\\Users\\DeleteUserCommandHandler.cs",
+              "RelativeToolTip": "CommandsAndQueries\\Users\\DeleteUserCommandHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwwAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-26T21:27:30.563Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "CreateUserCommandHandler.cs",
+              "DocumentMoniker": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\CommandsAndQueries\\Users\\CreateUserCommandHandler.cs",
+              "RelativeDocumentMoniker": "CommandsAndQueries\\Users\\CreateUserCommandHandler.cs",
+              "ToolTip": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\CommandsAndQueries\\Users\\CreateUserCommandHandler.cs",
+              "RelativeToolTip": "CommandsAndQueries\\Users\\CreateUserCommandHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-26T21:27:08.874Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ReadUnitOfWork.cs",
+              "DocumentMoniker": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Abstraction\\UnitOfWork\\ReadUnitOfWork.cs",
+              "RelativeDocumentMoniker": "Abstraction\\UnitOfWork\\ReadUnitOfWork.cs",
+              "ToolTip": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Abstraction\\UnitOfWork\\ReadUnitOfWork.cs",
+              "RelativeToolTip": "Abstraction\\UnitOfWork\\ReadUnitOfWork.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-26T21:26:03.649Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "IUnitOfWork.cs",
+              "DocumentMoniker": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Abstraction\\UnitOfWork\\IUnitOfWork.cs",
+              "RelativeDocumentMoniker": "Abstraction\\UnitOfWork\\IUnitOfWork.cs",
+              "ToolTip": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Abstraction\\UnitOfWork\\IUnitOfWork.cs",
+              "RelativeToolTip": "Abstraction\\UnitOfWork\\IUnitOfWork.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-26T21:26:02.342Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "IReadUnitOfWork.cs",
+              "DocumentMoniker": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Abstraction\\UnitOfWork\\IReadUnitOfWork.cs",
+              "RelativeDocumentMoniker": "Abstraction\\UnitOfWork\\IReadUnitOfWork.cs",
+              "ToolTip": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Abstraction\\UnitOfWork\\IReadUnitOfWork.cs",
+              "RelativeToolTip": "Abstraction\\UnitOfWork\\IReadUnitOfWork.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAQAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-26T21:26:01.489Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UnitOfWork.cs",
+              "DocumentMoniker": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Abstraction\\UnitOfWork\\UnitOfWork.cs",
+              "RelativeDocumentMoniker": "Abstraction\\UnitOfWork\\UnitOfWork.cs",
+              "ToolTip": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Abstraction\\UnitOfWork\\UnitOfWork.cs",
+              "RelativeToolTip": "Abstraction\\UnitOfWork\\UnitOfWork.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-26T21:25:17.578Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IRepository.cs",
+              "DocumentMoniker": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Abstraction\\Repository\\IRepository.cs",
+              "RelativeDocumentMoniker": "Abstraction\\Repository\\IRepository.cs",
+              "ToolTip": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Abstraction\\Repository\\IRepository.cs",
+              "RelativeToolTip": "Abstraction\\Repository\\IRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-26T21:25:13.933Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Repository.cs",
+              "DocumentMoniker": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Abstraction\\Repository\\Repository.cs",
+              "RelativeDocumentMoniker": "Abstraction\\Repository\\Repository.cs",
+              "ToolTip": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Abstraction\\Repository\\Repository.cs",
+              "RelativeToolTip": "Abstraction\\Repository\\Repository.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAA0wDYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-26T21:25:07.903Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ReadRepository.cs",
+              "DocumentMoniker": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Abstraction\\Repository\\ReadRepository.cs",
+              "RelativeDocumentMoniker": "Abstraction\\Repository\\ReadRepository.cs",
+              "ToolTip": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Abstraction\\Repository\\ReadRepository.cs",
+              "RelativeToolTip": "Abstraction\\Repository\\ReadRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvxQAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-26T21:24:35.497Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "IReadRepository.cs",
+              "DocumentMoniker": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Abstraction\\Repository\\IReadRepository.cs",
+              "RelativeDocumentMoniker": "Abstraction\\Repository\\IReadRepository.cs",
+              "ToolTip": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Abstraction\\Repository\\IReadRepository.cs",
+              "RelativeToolTip": "Abstraction\\Repository\\IReadRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwEAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-26T21:24:26.508Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAADwv0wAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-26T21:22:56.955Z",
               "EditorCaption": ""
             }
           ]

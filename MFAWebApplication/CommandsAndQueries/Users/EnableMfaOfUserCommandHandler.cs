@@ -1,7 +1,7 @@
 ﻿using AuthenticationWebApplication.Enteties;
 using CSharpFunctionalExtensions;
-using MFAWebApplication.Abstraction;
 using MFAWebApplication.Abstraction.Messaging;
+using MFAWebApplication.Abstraction.UnitOfWork;
 using MFAWebApplication.Services;
 using OtpNet;
 using QRCoder;

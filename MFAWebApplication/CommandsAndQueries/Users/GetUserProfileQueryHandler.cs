@@ -1,7 +1,7 @@
 ﻿using AuthenticationWebApplication.Enteties;
 using CSharpFunctionalExtensions;
-using MFAWebApplication.Abstraction;
 using MFAWebApplication.Abstraction.Messaging;
+using MFAWebApplication.Abstraction.UnitOfWork;
 
 namespace MFAWebApplication.CommandsAndQueries.Users;
 
@@ -11,10 +11,10 @@ public sealed record GetUserProfileQuery( Guid UserId ) : IQuery<User>;
 internal sealed class GetUserProfileQueryHandler
     : IQueryHandler<GetUserProfileQuery, User>
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IReadUnitOfWork _unitOfWork;
 
 
-    public GetUserProfileQueryHandler( IUnitOfWork unitOfWork )
+    public GetUserProfileQueryHandler(IReadUnitOfWork unitOfWork )
     {
         _unitOfWork = unitOfWork;
     }

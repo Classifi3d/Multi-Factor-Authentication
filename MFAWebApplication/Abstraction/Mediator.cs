@@ -1,6 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
 using MFAWebApplication.Abstraction.Messaging;
-using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace MFAWebApplication.Abstraction;

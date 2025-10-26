@@ -1,8 +1,8 @@
 ﻿using AuthenticationWebApplication.DTOs;
 using AuthenticationWebApplication.Enteties;
 using CSharpFunctionalExtensions;
-using MFAWebApplication.Abstraction;
 using MFAWebApplication.Abstraction.Messaging;
+using MFAWebApplication.Abstraction.UnitOfWork;
 using MFAWebApplication.DTOs;
 using MFAWebApplication.Services;
 using Microsoft.Extensions.Caching.Memory;
@@ -13,12 +13,12 @@ public sealed record LoginUserQuery( UserLoginDTO userLoginDto ) : IQuery<LoginS
 
 internal sealed class LoginUserQueryHandler : IQueryHandler<LoginUserQuery, LoginSecurityDTO>
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IReadUnitOfWork _unitOfWork;
     private readonly ISecurityService _securityService;
     private readonly IMemoryCache _cache;
 
     public LoginUserQueryHandler(
-        IUnitOfWork unitOfWork,
+        IReadUnitOfWork unitOfWork,
         ISecurityService securityService,
         IMemoryCache cache )
 

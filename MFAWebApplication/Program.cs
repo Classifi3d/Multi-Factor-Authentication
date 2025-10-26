@@ -73,16 +73,8 @@ builder
     });
 
 
-// PostGresDB
-builder
-    .Services
-    .AddDbContext<ApplicationDbContext>(
-        options =>
-            options.UseNpgsql(
-                builder.Configuration.GetConnectionString("PostgreSQL_Connection_String")
-        )
-    );
-
+// Databases
+builder.AddExternalServices();
 
 // Depedency Injections
 builder.Services.AddApplicationServices();

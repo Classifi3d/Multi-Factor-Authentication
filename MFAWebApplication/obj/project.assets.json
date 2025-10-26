@@ -3207,11 +3207,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\danut\\Desktop\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\MFAWebApplication.csproj",
+      "projectUniqueName": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\MFAWebApplication.csproj",
       "projectName": "MFAWebApplication",
-      "projectPath": "C:\\Users\\danut\\Desktop\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\MFAWebApplication.csproj",
+      "projectPath": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\MFAWebApplication.csproj",
       "packagesPath": "C:\\Users\\danut\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\danut\\Desktop\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\obj\\",
+      "outputPath": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3328,7 +3328,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
