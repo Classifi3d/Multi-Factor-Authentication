@@ -1,17 +1,16 @@
-﻿
-using AuthenticationWebApplication.Context;
-using MFAWebApplication.Abstraction.Repository;
-using MFAWebApplication.Context;
+﻿using MFAWebApplication.Abstraction.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace MFAWebApplication.Abstraction.UnitOfWork;
 
-public class UnitOfWork : IUnitOfWork
+public class UnitOfWork<TContext> : IUnitOfWork, IDisposable
+    where TContext : DbContext
 {
-    private readonly WriteDbContext _dbContext;
+    private readonly TContext _dbContext;
     private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
 
     public UnitOfWork(
-        WriteDbContext dbContext )
+        TContext dbContext )
     {
         _dbContext = dbContext;
     }
@@ -29,7 +28,6 @@ public class UnitOfWork : IUnitOfWork
         _repositories[type] = newRepo;
         return newRepo;
     }
-
 
     public async Task<int> SaveChangesAsync( CancellationToken cancellationToken = default )
     {

@@ -1,4 +1,3 @@
-using AuthenticationWebApplication.Context;
 using MFAWebApplication.Configurations;
 using MFAWebApplication.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

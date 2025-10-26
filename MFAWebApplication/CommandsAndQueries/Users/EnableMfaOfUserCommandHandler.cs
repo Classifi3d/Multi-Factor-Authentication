@@ -2,6 +2,7 @@
 using CSharpFunctionalExtensions;
 using MFAWebApplication.Abstraction.Messaging;
 using MFAWebApplication.Abstraction.UnitOfWork;
+using MFAWebApplication.Context;
 using MFAWebApplication.Services;
 using OtpNet;
 using QRCoder;
@@ -12,7 +13,7 @@ public sealed record EnableMfaOfUserCommand( Guid userId ) : ICommand<byte[]>;
 
 internal sealed class EnableMfaOfUserCommandHandler : ICommandHandler<EnableMfaOfUserCommand, byte[]>
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly UnitOfWork<WriteDbContext> _unitOfWork;
     private readonly ISecurityService _securityService;
     private Guid userId;
 
@@ -22,7 +23,7 @@ internal sealed class EnableMfaOfUserCommandHandler : ICommandHandler<EnableMfaO
     }
 
     public EnableMfaOfUserCommandHandler( 
-        IUnitOfWork unitOfWork, 
+        UnitOfWork<WriteDbContext> unitOfWork, 
         ISecurityService securityService )
     {
         _unitOfWork = unitOfWork;

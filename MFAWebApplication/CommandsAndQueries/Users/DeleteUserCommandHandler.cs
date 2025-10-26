@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using MFAWebApplication.Abstraction.Messaging;
 using MFAWebApplication.Abstraction.UnitOfWork;
+using MFAWebApplication.Context;
 
 namespace MFAWebApplication.CommandsAndQueries.Users;
 
@@ -10,9 +11,9 @@ public sealed record DeleteUserCommand( Guid UserId ) : ICommand;
 internal sealed class DeleteUserCommandHandler
     : ICommandHandler<DeleteUserCommand>
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly UnitOfWork<WriteDbContext> _unitOfWork;
 
-    public DeleteUserCommandHandler( IUnitOfWork unitOfWork )
+    public DeleteUserCommandHandler(UnitOfWork<WriteDbContext> unitOfWork )
     {
         _unitOfWork = unitOfWork;
     }

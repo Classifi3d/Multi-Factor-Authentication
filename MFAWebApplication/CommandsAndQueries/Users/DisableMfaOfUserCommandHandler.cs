@@ -2,6 +2,7 @@
 using CSharpFunctionalExtensions;
 using MFAWebApplication.Abstraction.Messaging;
 using MFAWebApplication.Abstraction.UnitOfWork;
+using MFAWebApplication.Context;
 
 namespace MFAWebApplication.CommandsAndQueries.Users;
 
@@ -9,11 +10,11 @@ public sealed record DisableMfaOfUserCommand( Guid userId ) : ICommand;
 
 internal sealed class DisableMfaOfUserCommandHandler : ICommandHandler<DisableMfaOfUserCommand>
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly UnitOfWork<WriteDbContext> _unitOfWork;
 
 
     public DisableMfaOfUserCommandHandler(
-        IUnitOfWork unitOfWork )
+        UnitOfWork<WriteDbContext> unitOfWork )
     {
         _unitOfWork = unitOfWork;
     }

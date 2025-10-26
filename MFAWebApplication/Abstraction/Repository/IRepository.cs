@@ -1,5 +1,4 @@
-﻿using AuthenticationWebApplication.Enteties;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace MFAWebApplication.Abstraction.Repository;
 

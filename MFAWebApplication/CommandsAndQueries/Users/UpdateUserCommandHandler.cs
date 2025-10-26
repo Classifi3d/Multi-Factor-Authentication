@@ -1,6 +1,8 @@
 ﻿using AuthenticationWebApplication.DTOs;
 using CSharpFunctionalExtensions;
 using MFAWebApplication.Abstraction.Messaging;
+using MFAWebApplication.Abstraction.UnitOfWork;
+using MFAWebApplication.Context;
 
 namespace MFAWebApplication.CommandsAndQueries.Users;
 
@@ -10,9 +12,9 @@ public sealed record UpdateUserCommand( UserDTO User ) : ICommand;
 internal sealed class UpdateUserCommandHandler
     : ICommandHandler<UpdateUserCommand>
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly UnitOfWork<WriteDbContext> _unitOfWork;
 
-    public UpdateUserCommandHandler( IUnitOfWork unitOfWork )
+    public UpdateUserCommandHandler( UnitOfWork<WriteDbContext> unitOfWork )
     {
         _unitOfWork = unitOfWork;
     }

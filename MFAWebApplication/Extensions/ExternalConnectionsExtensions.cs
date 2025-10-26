@@ -1,4 +1,4 @@
-﻿using AuthenticationWebApplication.Context;
+﻿using MFAWebApplication.Abstraction.UnitOfWork;
 using MFAWebApplication.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,7 +25,6 @@ public static class ExternalConnectionsExtensions
         );
 
         return builder;
-
     }
 }
 

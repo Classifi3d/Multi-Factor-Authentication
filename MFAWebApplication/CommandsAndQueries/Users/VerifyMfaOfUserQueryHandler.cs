@@ -2,6 +2,8 @@
 using AuthenticationWebApplication.Enteties;
 using CSharpFunctionalExtensions;
 using MFAWebApplication.Abstraction.Messaging;
+using MFAWebApplication.Abstraction.UnitOfWork;
+using MFAWebApplication.Context;
 using MFAWebApplication.DTOs;
 using MFAWebApplication.Services;
 using Microsoft.Extensions.Caching.Memory;
@@ -13,13 +15,13 @@ public sealed record VerifyMfaOfUserQuery( MfaVerificationDTO verificationDto ) 
 
 internal sealed class VerifyMfaOfUserQueryHandler : IQueryHandler<VerifyMfaOfUserQuery, string>
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly UnitOfWork<ReadDbContext> _unitOfWork;
 
     private readonly ISecurityService _securityService;
     private readonly IMemoryCache _cache;
 
     public VerifyMfaOfUserQueryHandler(
-        IUnitOfWork unitOfWork,
+        UnitOfWork<ReadDbContext> unitOfWork,
         ISecurityService securityService,
         IMemoryCache cache
         )
