@@ -10,6 +10,7 @@ public class KafkaConsumerService : BackgroundService
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly IConsumer<Null, string> _consumer;
+    private readonly string _topic;
     private readonly Mapper _mapper;
 
     public KafkaConsumerService(IServiceProvider serviceProvider, IConfiguration config, Mapper mapper)
@@ -21,38 +22,56 @@ public class KafkaConsumerService : BackgroundService
         {
             BootstrapServers = config["Kafka:BootstrapServers"],
             GroupId = "read-db-consumer",
-            AutoOffsetReset = AutoOffsetReset.Earliest
+            AutoOffsetReset = AutoOffsetReset.Earliest,
+            EnableAutoCommit = true,
+            StatisticsIntervalMs = 5000,
+            FetchWaitMaxMs = 5,        // ↓ reduces fetch latency
+            FetchMinBytes = 1,         // deliver small messages immediately
+            SessionTimeoutMs = 10000
         };
 
         _consumer = new ConsumerBuilder<Null, string>(consumerConfig).Build();
-        _consumer.Subscribe(config["Kafka:Topic"]);
+        _topic = config["Kafka:Topic"];
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        while (!stoppingToken.IsCancellationRequested)
+        await Task.Yield();
+        try
         {
-            try
+            _consumer.Subscribe(_topic);
+
+            while (!stoppingToken.IsCancellationRequested)
             {
-                var result = _consumer.Consume(stoppingToken);
-                var userEvent = JsonSerializer.Deserialize<UserCreatedEvent>(result.Message.Value);
-
-                if (userEvent != null)
+                try
                 {
-                    using var scope = _serviceProvider.CreateScope();
-                    var uow = scope.ServiceProvider.GetRequiredService<UnitOfWork<ReadDbContext>>();
-                    var repo = uow.Repository<User>();
+                    var result = _consumer.Consume(stoppingToken);
+                    var userEvent = JsonSerializer.Deserialize<UserCreatedEvent>(result.Message.Value);
 
-                    var existingUser = await repo.GetByIdAsync(userEvent.Id, stoppingToken);
-                    if (existingUser == null)
+                    if (userEvent != null)
                     {
+                        using var scope = _serviceProvider.CreateScope();
+                        var uow = scope.ServiceProvider.GetRequiredService<UnitOfWork<ReadDbContext>>();
+                        var repo = uow.Repository<UserReadModel>();
 
-                        var user = _mapper.Map<User>(userEvent);
-                        await uow.SaveChangesAsync(stoppingToken);
+                        var existingUser = await repo.GetByIdAsync(userEvent.Id, stoppingToken);
+                        if (existingUser == null)
+                        {
+                            var userReadModel = _mapper.Map<UserReadModel>(userEvent);
+                            await repo.AddAsync(userReadModel, stoppingToken);
+                            await uow.SaveChangesAsync(stoppingToken);
+                        }
                     }
                 }
+                catch (OperationCanceledException)
+                {
+                    break;
+                }
             }
-            catch (OperationCanceledException) { }
+        }
+        finally
+        {
+            _consumer.Close();
         }
     }
 }

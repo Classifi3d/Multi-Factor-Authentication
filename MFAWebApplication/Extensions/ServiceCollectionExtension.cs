@@ -41,8 +41,15 @@ public static class ServiceCollectionExtension
         services.AddScoped<UnitOfWork<ReadDbContext>>();
         services.AddScoped<UnitOfWork<WriteDbContext>>();
 
+
         services.AddSingleton<KafkaProducerService>();
         services.AddHostedService<KafkaConsumerService>();
+
+        services.Configure<HostOptions>(opts =>
+        {
+            opts.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore;
+        });
+
 
         return services;
     }

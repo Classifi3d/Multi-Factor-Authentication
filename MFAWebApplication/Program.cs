@@ -32,8 +32,6 @@ builder
 // Middleware Endpoint Rate Limiting
 builder.Services.AddCustomRateLimiters();
 
-
-
 // JWT Token
 builder
     .Services
