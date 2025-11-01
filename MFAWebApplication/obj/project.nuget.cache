@@ -1,12 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "hAxKFtOk140=",
+  "dgSpecHash": "8HQ7LNpmPJc=",
   "success": true,
-  "projectFilePath": "C:\\Users\\danut\\Projects\\MFA_WebApplication\\MFAWebApplication\\MFAWebApplication.csproj",
+  "projectFilePath": "C:\\Users\\danut\\Projects\\Multi-Factor-Authentication\\MFAWebApplication\\MFAWebApplication.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\danut\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
+    "C:\\Users\\danut\\.nuget\\packages\\confluent.kafka\\2.12.0\\confluent.kafka.2.12.0.nupkg.sha512",
+    "C:\\Users\\danut\\.nuget\\packages\\csharpfunctionalextensions\\3.6.0\\csharpfunctionalextensions.3.6.0.nupkg.sha512",
     "C:\\Users\\danut\\.nuget\\packages\\googleauthenticator\\3.2.0\\googleauthenticator.3.2.0.nupkg.sha512",
     "C:\\Users\\danut\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+    "C:\\Users\\danut\\.nuget\\packages\\librdkafka.redist\\2.12.0\\librdkafka.redist.2.12.0.nupkg.sha512",
     "C:\\Users\\danut\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.12\\microsoft.aspnetcore.authentication.jwtbearer.8.0.12.nupkg.sha512",
     "C:\\Users\\danut\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "C:\\Users\\danut\\.nuget\\packages\\microsoft.bcl.memory\\9.0.0\\microsoft.bcl.memory.9.0.0.nupkg.sha512",

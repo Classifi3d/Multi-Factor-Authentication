@@ -1,5 +1,7 @@
 ﻿using AuthenticationWebApplication.DTOs;
-using AuthenticationWebApplication.Repository;
+using AuthenticationWebApplication.Enteties;
+using MFAWebApplication.Abstraction;
+using MFAWebApplication.CommandsAndQueries.Users;
 using MFAWebApplication.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,47 +16,49 @@ namespace AuthenticationWebApplication.Controllers
     [Authorize]
     public class UserController : Controller
     {
-        private readonly IUserRepository _userRepository;
 
-        public UserController(IUserRepository userRepository)
+        private readonly IMediator _mediator;
+
+        public UserController( IMediator mediator )
         {
-            _userRepository = userRepository;
+            _mediator = mediator;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetUsersAsync()
-        {
-            var users = await _userRepository.GetUsersAsync();
-            if (users != null)
-            {
-                return Ok(users);
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
+        //[HttpGet]
+        //public async Task<IActionResult> GetUsersAsync()
+        //{
+        //    var users = await _userRepository.GetAll();
+        //    if (users != null)
+        //    {
+        //        return Ok(users);
+        //    }
+        //    else
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
 
         [HttpGet]
         [Route("user-data")]
         [ActionName("GetUserById")]
-        public async Task<IActionResult> GetUserData()
+        public async Task<IActionResult> GetUserData( CancellationToken cancellationToken )
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out Guid userId))
+            if ( string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out Guid userId) )
             {
                 return Unauthorized("Invalid token.");
             }
 
-            var user = await _userRepository.GetUserByIdAsync(userId);
+            var query = new GetUserProfileQuery(userId);
+            var result = await _mediator.Query<GetUserProfileQuery,User>(query,cancellationToken);
 
-            if (user == null)
+            if ( result.IsFailure )
             {
-                return NotFound("User not found.");
+                return NotFound(result.Error);
             }
 
-            return Ok(user);
+            return Ok(result.Value);
         }
 
 
@@ -62,105 +66,115 @@ namespace AuthenticationWebApplication.Controllers
         [HttpPost]
         [Route("sign-up")]
         [EnableRateLimiting("registerLimiter")]
-        public async Task<IActionResult> AddUserAsync([FromBody] UserDTO userDTO)
+        public async Task<IActionResult> AddUserAsync( [FromBody] UserDTO userDto, CancellationToken cancellationToken )
         {
-            var isAdded = await _userRepository.AddUserAsync(userDTO);
-            if (isAdded)
+            if ( userDto is null )
             {
-                return Ok();
+                return BadRequest("User data is required.");
             }
-            else
+
+            var result = await _mediator.Send(new CreateUserCommand(userDto), cancellationToken);
+
+            if ( result.IsFailure )
             {
-                return BadRequest();
+                return BadRequest(result.Error);
             }
+
+            return Ok();
+
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateUserAsync([FromBody] UserDTO userDTO)
+        [Route("user")]
+        public async Task<IActionResult> UpdateUserAsync( [FromBody] UserDTO userDto, CancellationToken cancellationToken )
         {
-            var isUpdated = await _userRepository.UpdateUserAsync(userDTO);
-            if (isUpdated)
-            {
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
-            }
+            var result = await _mediator.Send(new UpdateUserCommand(userDto), cancellationToken);
+
+            if ( result.IsFailure )
+                return BadRequest(result.Error);
+
+            return Ok();
         }
 
         [HttpDelete]
-        [Route("{userId:guid}")]
-        [ActionName("DeleteById")]
-        public async Task<IActionResult> DeleteUserAsync(Guid userId)
+        [Route("user/{userId:guid}")]
+        public async Task<IActionResult> DeleteUserAsync( Guid userId, CancellationToken cancellationToken )
         {
-            var isDeleted = await _userRepository.DeleteUserAsync(userId);
-            if (isDeleted)
-            {
-                return Ok();
-            }
-            else
-            {
-                return NotFound();
-            }
+            var result = await _mediator.Send(new DeleteUserCommand(userId), cancellationToken);
+
+            if ( result.IsFailure )
+                return NotFound(result.Error);
+
+            return Ok();
         }
+
 
         [HttpPost]
         [Route("enable-mfa")]
         [ActionName("GenerateUserQRCode")]
-        public async Task<IActionResult> MfaGenerateAsync()
+        public async Task<IActionResult> EnableMfaAsync( CancellationToken cancellationToken )
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out Guid userId))
+            if ( string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out Guid userId) )
             {
                 return Unauthorized("Invalid token.");
             }
 
-            var qrCodeBytes = await _userRepository.MfaGenerate(userId);
-            if (qrCodeBytes != null)
-            {
-                return File(qrCodeBytes, "image/png");
-            }
-            return BadRequest("MFA setup failed: User not found or MFA already enabled.");
+            var command = new EnableMfaOfUserCommand(userId);
+            var result = await _mediator.Send<EnableMfaOfUserCommand, byte[]>(command, cancellationToken);
+
+            if ( result.IsFailure )
+                return BadRequest(result.Error);
+
+            return File(result.Value, "image/png");
+
         }
 
         [HttpPost]
         [Route("disable-mfa")]
         [ActionName("DisableUserMfa")]
-        public async Task<IActionResult> MfaDisableAsync()
+        public async Task<IActionResult> MfaDisableAsync( CancellationToken cancellationToken )
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out Guid userId))
+            if ( string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out Guid userId) )
             {
                 return Unauthorized("Invalid token.");
             }
 
-            var isDisabled = await _userRepository.MfaDisable(userId);
-            if (isDisabled)
-            {
-                return Ok();
-            }
-            return BadRequest("MFA disabling failed failed: User not found");
+            var command = new DisableMfaOfUserCommand(userId);
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if ( result.IsFailure )
+                return BadRequest(result.Error);
+
+            return Ok();
         }
 
         [AllowAnonymous]
         [HttpPost]
         [Route("login")]
         [EnableRateLimiting("loginLimiter")]
-        public async Task<IActionResult> LoginAsync([FromBody] UserLoginDTO userLoginDTO)
+        public async Task<IActionResult> LoginAsync( [FromBody] UserLoginDTO userLoginDTO, CancellationToken cancellationToken )
         {
-            var loginResult = await _userRepository.LoginAsync(userLoginDTO);
+            var query = new LoginUserQuery(userLoginDTO);
+            var result = await _mediator.Query<LoginUserQuery,LoginSecurityDTO>(query, cancellationToken);
 
-            if (loginResult.Token == null && !loginResult.RequiresMfa)
+            if ( result.IsFailure )
             {
                 return Unauthorized("Invalid credentials.");
             }
 
-            if (loginResult.RequiresMfa)
+            var loginResult = result.Value;
+
+            if ( loginResult.RequiresMfa )
             {
-                return Ok(new { message = "MFA required. Please verify using the 6-digit code.", challengeId = loginResult.ChallengeId });
+                return Ok(new
+                {
+                    message = "MFA required. Please verify using the 6-digit code.",
+                    challengeId = loginResult.ChallengeId
+                });
             }
 
             return Ok(new { token = loginResult.Token });
@@ -172,16 +186,17 @@ namespace AuthenticationWebApplication.Controllers
         [HttpPost]
         [Route("verify-mfa")]
         [EnableRateLimiting("mfaLimiter")]
-        public async Task<IActionResult> VerifyMfaAsync([FromBody] MfaVerificationDTO verificationDTO)
+        public async Task<IActionResult> VerifyMfaAsync( [FromBody] MfaVerificationDTO verificationDto, CancellationToken cancellationToken)
         {
-            string? token = await _userRepository.VerifyMfaAsync(verificationDTO);
+            var query = new VerifyMfaOfUserQuery(verificationDto);
+            var result = await _mediator.Query<VerifyMfaOfUserQuery, string>(query, cancellationToken);
 
-            if (string.IsNullOrEmpty(token))
+            if ( result.IsFailure )
             {
-                return Unauthorized("Invalid MFA code.");
+                return Unauthorized(result.Error);
             }
 
-            return Ok(new { token });
+            return Ok(result);
         }
 
     }

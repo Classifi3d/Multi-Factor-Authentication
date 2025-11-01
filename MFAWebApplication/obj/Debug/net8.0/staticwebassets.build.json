@@ -1,12 +1,1 @@
-{
-  "Version": 1,
-  "Hash": "17Q71yKC4i1OFkHtCh526yjOHZjQd0th6z8OyOMZFXM=",
-  "Source": "MFAWebApplication",
-  "BasePath": "_content/MFAWebApplication",
-  "Mode": "Default",
-  "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": [],
-  "Endpoints": []
-}
+{"Version":1,"Hash":"17Q71yKC4i1OFkHtCh526yjOHZjQd0th6z8OyOMZFXM=","Source":"MFAWebApplication","BasePath":"_content/MFAWebApplication","Mode":"Default","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}

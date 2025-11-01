@@ -1,12 +1,10 @@
-using AuthenticationWebApplication.Context;
-using AuthenticationWebApplication.Repository;
+using MFAWebApplication.Configurations;
+using MFAWebApplication.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
-using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -31,47 +29,8 @@ builder
         options.OperationFilter<SecurityRequirementsOperationFilter>();
     });
 
-// Endpoint Rate Limiting
-builder.Services.AddRateLimiter(options =>
-{
-    options.AddFixedWindowLimiter("registerLimiter", opt =>
-    {
-        opt.PermitLimit = 5; // Max 5 registrations per minute
-        opt.Window = TimeSpan.FromMinutes(1);
-        opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
-        opt.QueueLimit = 2; // Allows 2 extra attempts to queue
-    });
-
-    options.AddTokenBucketLimiter("loginLimiter", opt =>
-    {
-        opt.TokenLimit = 10;  // Max 10 login attempts at any time
-        opt.TokensPerPeriod = 2; // Refill 2 tokens every 10 seconds
-        opt.ReplenishmentPeriod = TimeSpan.FromSeconds(10);
-        opt.AutoReplenishment = true;
-        opt.QueueLimit = 3;
-        opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
-    });
-
-    options.AddSlidingWindowLimiter("mfaLimiter", opt =>
-    {
-        opt.PermitLimit = 3; // Max 3 MFA attempts within 30 seconds
-        opt.Window = TimeSpan.FromSeconds(30);
-        opt.SegmentsPerWindow = 3; // MFA attempts spread over 3 segments (10 sec each)
-        opt.QueueLimit = 1; // Only 1 additional attempt in queue
-    });
-
-    options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
-        RateLimitPartition.GetFixedWindowLimiter("globalLimiter", _ => new FixedWindowRateLimiterOptions
-        {
-            PermitLimit = 100, // Max 100 requests per minute per user
-            Window = TimeSpan.FromMinutes(1)
-        })
-    );
-});
-
-// Chaching for Challange Codes
-builder.Services.AddMemoryCache();
-
+// Middleware Endpoint Rate Limiting
+builder.Services.AddCustomRateLimiters();
 
 // JWT Token
 builder
@@ -111,33 +70,23 @@ builder
     });
 
 
-
-
-// PostGresDB
-builder
-    .Services
-    .AddDbContext<ApplicationDbContext>(
-        options =>
-            options.UseNpgsql(
-                builder.Configuration.GetConnectionString("PostgreSQL_Connection_String")
-            )
-    );
-
+// Databases
+builder.AddExternalServices();
 
 // Depedency Injections
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddApplicationServices();
 
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if ( app.Environment.IsDevelopment() )
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-
+app.UseRateLimiter();
 app.UseCors(allowSpecificOrigin);
 app.UseHttpsRedirection();
 app.UseAuthorization();
