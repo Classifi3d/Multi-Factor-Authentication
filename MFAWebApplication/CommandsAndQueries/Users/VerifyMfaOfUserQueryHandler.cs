@@ -15,13 +15,13 @@ public sealed record VerifyMfaOfUserQuery( MfaVerificationDTO verificationDto ) 
 
 internal sealed class VerifyMfaOfUserQueryHandler : IQueryHandler<VerifyMfaOfUserQuery, string>
 {
-    private readonly UnitOfWork<ReadDbContext> _unitOfWork;
+    private readonly UnitOfWork<WriteDbContext> _unitOfWork;
 
     private readonly ISecurityService _securityService;
     private readonly IMemoryCache _cache;
 
     public VerifyMfaOfUserQueryHandler(
-        UnitOfWork<ReadDbContext> unitOfWork,
+        UnitOfWork<WriteDbContext> unitOfWork,
         ISecurityService securityService,
         IMemoryCache cache
         )

@@ -1,22 +1,21 @@
-﻿using AuthenticationWebApplication.Enteties;
-using AutoMapper;
+﻿using AutoMapper;
 using Confluent.Kafka;
-using MFAWebApplication.Abstraction.UnitOfWork;
-using MFAWebApplication.Context;
-using MFAWebApplication.Enteties;
-using System.Text.Json;
+using MessagePack;
+using MFAWebApplication.Kafka;
+using MFAWebApplication.Projections;
 
 public class KafkaConsumerService : BackgroundService
 {
     private readonly IServiceProvider _serviceProvider;
-    private readonly IConsumer<Null, string> _consumer;
+    private readonly IConsumer<Null, byte[]> _consumer;
+    private readonly IDictionary<string, Type> _projectorTypes;
     private readonly string _topic;
-    private readonly Mapper _mapper;
 
-    public KafkaConsumerService(IServiceProvider serviceProvider, IConfiguration config, Mapper mapper)
+    public KafkaConsumerService(
+        IServiceProvider serviceProvider,
+        IConfiguration config)
     {
         _serviceProvider = serviceProvider;
-        _mapper = mapper;
 
         var consumerConfig = new ConsumerConfig
         {
@@ -25,47 +24,49 @@ public class KafkaConsumerService : BackgroundService
             AutoOffsetReset = AutoOffsetReset.Earliest,
             EnableAutoCommit = true,
             StatisticsIntervalMs = 5000,
-            FetchWaitMaxMs = 5,        // ↓ reduces fetch latency
-            FetchMinBytes = 1,         // deliver small messages immediately
+            FetchWaitMaxMs = 5,
+            FetchMinBytes = 1,
             SessionTimeoutMs = 10000
         };
 
-        _consumer = new ConsumerBuilder<Null, string>(consumerConfig).Build();
+        _consumer = new ConsumerBuilder<Null, byte[]>(consumerConfig).Build();
         _topic = config["Kafka:Topic"];
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await Task.Yield();
+        _consumer.Subscribe(_topic);
+
         try
         {
-            _consumer.Subscribe(_topic);
-
             while (!stoppingToken.IsCancellationRequested)
             {
                 try
                 {
                     var result = _consumer.Consume(stoppingToken);
-                    var userEvent = JsonSerializer.Deserialize<UserCreatedEvent>(result.Message.Value);
+                    if (result?.Message?.Value == null) continue;
 
-                    if (userEvent != null)
+                    var envelope = MessagePackSerializer.Deserialize<KafkaEnvelope>(result.Message.Value);
+
+                    if (!_projectorTypes.TryGetValue(envelope.Type, out var projType))
                     {
-                        using var scope = _serviceProvider.CreateScope();
-                        var uow = scope.ServiceProvider.GetRequiredService<UnitOfWork<ReadDbContext>>();
-                        var repo = uow.Repository<UserReadModel>();
-
-                        var existingUser = await repo.GetByIdAsync(userEvent.Id, stoppingToken);
-                        if (existingUser == null)
-                        {
-                            var userReadModel = _mapper.Map<UserReadModel>(userEvent);
-                            await repo.AddAsync(userReadModel, stoppingToken);
-                            await uow.SaveChangesAsync(stoppingToken);
-                        }
+                        // unknown event - skip, optionally log or push to DLQ
+                        _consumer.Commit(result); // commit to avoid redelivery if you don't want to process
+                        continue;
                     }
+
+                    using var scope = _serviceProvider.CreateScope();
+                    var projector = (IEventProjector)scope.ServiceProvider.GetRequiredService(projType);
+
+                    await projector.ProjectAsync(envelope.Payload, stoppingToken);
+
+                    // commit offset only after successful projection
+                    _consumer.Commit(result);
                 }
-                catch (OperationCanceledException)
+                catch (OperationCanceledException) { break; }
+                catch (Exception ex)
                 {
-                    break;
+                    // log ex, do not commit to allow retry; consider moving message to DLQ after repeated failures
                 }
             }
         }
@@ -74,4 +75,5 @@ public class KafkaConsumerService : BackgroundService
             _consumer.Close();
         }
     }
+
 }

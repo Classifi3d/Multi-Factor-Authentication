@@ -23,5 +23,5 @@ public class User : BaseEntity
     public string? MfaSecretKey { get; set; }
     public bool IsMfaEnabled { get; set; } = false;
     [ConcurrencyCheck]
-    public long ConcurencyIndex { get; set; } = 0;
+    public ulong ConcurencyIndex { get; set; } = 1;
 }

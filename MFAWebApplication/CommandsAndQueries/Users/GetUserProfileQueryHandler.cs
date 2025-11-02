@@ -12,10 +12,10 @@ public sealed record GetUserProfileQuery( Guid UserId ) : IQuery<User>;
 internal sealed class GetUserProfileQueryHandler
     : IQueryHandler<GetUserProfileQuery, User>
 {
-    private readonly UnitOfWork<ReadDbContext> _unitOfWork;
+    private readonly UnitOfWork<WriteDbContext> _unitOfWork;
 
 
-    public GetUserProfileQueryHandler(UnitOfWork<ReadDbContext> unitOfWork )
+    public GetUserProfileQueryHandler(UnitOfWork<WriteDbContext> unitOfWork )
     {
         _unitOfWork = unitOfWork;
     }

@@ -3,17 +3,20 @@ using System;
 using MFAWebApplication.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace MFAWebApplication.Migrations.ReadDb
+namespace MFAWebApplication.Migrations
 {
-    [DbContext(typeof(ReadDbContext))]
-    partial class ReadDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(WriteDbContext))]
+    [Migration("20251102222923_first_migration")]
+    partial class first_migration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,14 +25,18 @@ namespace MFAWebApplication.Migrations.ReadDb
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("MFAWebApplication.Enteties.UserReadModel", b =>
+            modelBuilder.Entity("AuthenticationWebApplication.Enteties.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<long>("ConcurrencyVersion")
-                        .HasColumnType("bigint");
+                    b.Property<decimal>("ConcurencyIndex")
+                        .IsConcurrencyToken()
+                        .HasColumnType("numeric(20,0)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -38,16 +45,29 @@ namespace MFAWebApplication.Migrations.ReadDb
                     b.Property<bool>("IsMfaEnabled")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("MfaSecretKey")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.ToTable("UserReadModel");
+                    b.ToTable("User");
                 });
 #pragma warning restore 612, 618
         }

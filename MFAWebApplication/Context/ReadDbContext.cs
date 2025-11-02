@@ -1,19 +1,23 @@
-﻿using AuthenticationWebApplication.Enteties;
-using MFAWebApplication.Enteties;
-using Microsoft.EntityFrameworkCore;
+﻿using MongoDB.Driver;
 
 namespace MFAWebApplication.Context;
 
-public class ReadDbContext : DbContext
+public class ReadDbContext
 {
+    private readonly IMongoDatabase _database;
 
-    public ReadDbContext( DbContextOptions<ReadDbContext> options ) : base(options) { }
-
-    public DbSet<UserReadModel> Users => Set<UserReadModel>();
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    public ReadDbContext(IConfiguration configuration)
     {
-        base.OnModelCreating(modelBuilder);
+        var connectionString = configuration["MongoSettings:ConnectionString"];
+        var databaseName = configuration["MongoSettings:DatabaseName"];
+
+        var client = new MongoClient(connectionString);
+        _database = client.GetDatabase(databaseName);
+    }
+
+    public IMongoCollection<T> GetCollection<T>(string name)
+    {
+        return _database.GetCollection<T>(name);
     }
 
 }

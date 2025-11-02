@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MFAWebApplication.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class first_migration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,7 +21,7 @@ namespace MFAWebApplication.Migrations
                     Password = table.Column<string>(type: "text", nullable: false),
                     MfaSecretKey = table.Column<string>(type: "text", nullable: true),
                     IsMfaEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    ConcurencyIndex = table.Column<long>(type: "bigint", nullable: false),
+                    ConcurencyIndex = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },

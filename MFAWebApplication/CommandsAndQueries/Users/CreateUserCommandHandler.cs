@@ -12,7 +12,6 @@ using System.Text.Json;
 
 namespace MFAWebApplication.CommandsAndQueries.Users;
 
-
 public sealed record CreateUserCommand( UserDTO userDto ) : ICommand;
 
 internal sealed class CreateUserCommandHandler : ICommandHandler<CreateUserCommand>
@@ -51,8 +50,7 @@ internal sealed class CreateUserCommandHandler : ICommandHandler<CreateUserComma
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         var userEvent = _mapper.Map<UserCreatedEvent>(user);
-        var message = JsonSerializer.Serialize(userEvent);
-        await _kafka.ProduceAsync(message);
+        await _kafka.ProduceAsync(userEvent);
 
         return Result.Success();
     }

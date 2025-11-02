@@ -415,3 +415,12 @@ C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\bin\Debug\
 C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\bin\Debug\net8.0\MFAWebApplication.pdb
 C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\obj\Debug\net8.0\MFAWebApplication.genruntimeconfig.cache
 C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\obj\Debug\net8.0\ref\MFAWebApplication.dll
+C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\bin\Debug\net8.0\DnsClient.dll
+C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\bin\Debug\net8.0\MessagePack.dll
+C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\bin\Debug\net8.0\MessagePack.Annotations.dll
+C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\bin\Debug\net8.0\Microsoft.NET.StringTools.dll
+C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\bin\Debug\net8.0\MongoDB.Bson.dll
+C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\bin\Debug\net8.0\MongoDB.Driver.dll
+C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\bin\Debug\net8.0\SharpCompress.dll
+C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\bin\Debug\net8.0\Snappier.dll
+C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\bin\Debug\net8.0\ZstdSharp.dll

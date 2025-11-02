@@ -8,7 +8,7 @@ public static class ExternalConnectionsExtensions
 {
     public static IHostApplicationBuilder AddExternalServices(this IHostApplicationBuilder builder)
     {
-        // Write PostgreSQL DB
+        // Write Database PostgreSQL
         builder.Services.AddDbContext<WriteDbContext>(
             options =>
                 options.UseNpgsql(
@@ -16,13 +16,18 @@ public static class ExternalConnectionsExtensions
                 )
         );
 
-        // Read PostgreSQL DB
-        builder.Services.AddDbContext<ReadDbContext>(
-            options =>
-                options.UseNpgsql(
-                    builder.Configuration.GetConnectionString("PostgreSQL_Read_Connection_String")
-                )
-        );
+        // Read Database PostgreSQL
+        //builder.Services.AddDbContext<ReadDbContext>(
+        //    options =>
+        //        options.UseNpgsql(
+        //            builder.Configuration.GetConnectionString("PostgreSQL_Read_Connection_String")
+        //        )
+        //);
+
+
+        // Read Database MongoDB
+        builder.Services.AddSingleton<ReadDbContext>();
+
 
         return builder;
     }

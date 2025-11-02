@@ -14,12 +14,12 @@ public sealed record LoginUserQuery( UserLoginDTO userLoginDto ) : IQuery<LoginS
 
 internal sealed class LoginUserQueryHandler : IQueryHandler<LoginUserQuery, LoginSecurityDTO>
 {
-    private readonly UnitOfWork<ReadDbContext> _unitOfWork;
+    private readonly UnitOfWork<WriteDbContext> _unitOfWork;
     private readonly ISecurityService _securityService;
     private readonly IMemoryCache _cache;
 
     public LoginUserQueryHandler(
-        UnitOfWork<ReadDbContext> unitOfWork,
+        UnitOfWork<WriteDbContext> unitOfWork,
         ISecurityService securityService,
         IMemoryCache cache )
 

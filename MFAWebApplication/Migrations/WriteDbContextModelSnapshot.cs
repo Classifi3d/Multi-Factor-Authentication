@@ -28,9 +28,9 @@ namespace MFAWebApplication.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<long>("ConcurencyIndex")
+                    b.Property<decimal>("ConcurencyIndex")
                         .IsConcurrencyToken()
-                        .HasColumnType("bigint");
+                        .HasColumnType("numeric(20,0)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("timestamp with time zone");
