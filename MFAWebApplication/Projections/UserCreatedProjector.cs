@@ -22,7 +22,16 @@ public class UserCreatedProjector : IEventProjector
         var evt = MessagePackSerializer.Deserialize<UserCreatedEvent>(payload);
         if (evt == null) return;
 
-        var readModel = _mapper.Map<UserReadModel>(evt);
+        var readModel = new UserReadModel
+        {
+            Id = evt.Id,
+            Email = evt.Email,
+            Username = evt.Username,
+            Password = evt.Password,
+            IsMfaEnabled = evt.IsMfaEnabled,
+            ConcurrencyIndex = evt.ConcurrencyIndex
+        };
+
         await _repo.UpsertIfNewerConcurrencyAsync(readModel, cancellationToken);
     }
 }

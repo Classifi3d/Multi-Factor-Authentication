@@ -1,11 +1,18 @@
-﻿namespace MFAWebApplication.Enteties;
+﻿using MongoDB.Bson.Serialization.Attributes;
 
-public class UserReadModel : IReadModel
+namespace MFAWebApplication.Enteties;
+
+public class UserReadModel : ReadModel
 {
+    [BsonId]
+    [BsonRepresentation(MongoDB.Bson.BsonType.String)]
     public Guid Id { get; set; }
-    public string Email { get; set; } = string.Empty;
+    [BsonElement("email")]
+    public string Email { get; set; } = string.Empty;        
+    [BsonElement("username")]
     public string Username { get; set; } = string.Empty;
+    [BsonElement("password")]
     public string Password { get; set; } = string.Empty;
+    [BsonElement("isMfaEnabled")]
     public bool IsMfaEnabled { get; set; }
-    public ulong ConcurrencyIndex { get; set; }
 }

@@ -28,7 +28,7 @@ namespace MFAWebApplication.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<decimal>("ConcurencyIndex")
+                    b.Property<decimal>("ConcurrencyIndex")
                         .IsConcurrencyToken()
                         .HasColumnType("numeric(20,0)");
 

@@ -1,4 +1,5 @@
-﻿using MFAWebApplication.Abstraction;
+﻿using MessagePack;
+using MFAWebApplication.Abstraction;
 using MFAWebApplication.Abstraction.Messaging;
 using MFAWebApplication.Abstraction.Repository;
 using MFAWebApplication.Abstraction.UnitOfWork;
@@ -15,6 +16,7 @@ public static class ServiceCollectionExtension
 {
     public static IServiceCollection AddApplicationServices( this IServiceCollection services )
     {
+        MessagePackSerializer.DefaultOptions = MessagePackSerializerOptions.Standard.WithResolver(MessagePack.Resolvers.ContractlessStandardResolver.Instance);
 
         // Infrastructure
         var assemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -52,7 +54,6 @@ public static class ServiceCollectionExtension
         // Messaging Queue
         services.AddSingleton<KafkaProducerService>();
         services.AddHostedService<KafkaConsumerService>();
-        services.AddHostedService(provider => provider.GetRequiredService<KafkaConsumerService>());
 
         services.AddScoped<UserCreatedProjector>();
 

@@ -13,7 +13,9 @@ public class MapperConfiguration
         {
             cfg.CreateMap<User, UserDTO>().ReverseMap();
             cfg.CreateMap<User, UserCreatedEvent>().ReverseMap();
-            cfg.CreateMap<UserCreatedEvent, UserReadModel>().ReverseMap();
+            cfg.CreateMap<UserCreatedEvent, UserReadModel>()
+                .ForMember(dest => dest.ConcurrencyIndex,
+                            opt => opt.MapFrom(src => src.ConcurrencyIndex));
         }
         );
 

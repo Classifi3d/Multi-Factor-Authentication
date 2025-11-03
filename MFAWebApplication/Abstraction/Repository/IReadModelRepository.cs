@@ -1,9 +1,8 @@
-﻿using MFAWebApplication.Enteties;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace MFAWebApplication.Abstraction.Repository;
 public interface IReadModelRepository<TEntity>
-    where TEntity : class, IReadModel
+    where TEntity : class
 {
     Task<TEntity?> GetByIdAsync(object id, CancellationToken cancellationToken = default);
 

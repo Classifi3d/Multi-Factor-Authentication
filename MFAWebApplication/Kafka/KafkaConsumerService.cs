@@ -6,17 +6,21 @@ using MFAWebApplication.Projections;
 
 public class KafkaConsumerService : BackgroundService
 {
+    private readonly IHostApplicationLifetime _appLifetime;
     private readonly IServiceProvider _serviceProvider;
+    private readonly string _topic;
     private readonly IConsumer<Null, byte[]> _consumer;
     private readonly IDictionary<string, Type> _projectorTypes;
-    private readonly string _topic;
+    private bool _appStarted = false;
 
     public KafkaConsumerService(
+        IHostApplicationLifetime appLifetime,
         IServiceProvider serviceProvider,
-        IConfiguration config)
+        IConfiguration config,
+        IDictionary<string, Type> projectorTypes)
     {
+        _appLifetime = appLifetime;
         _serviceProvider = serviceProvider;
-
         var consumerConfig = new ConsumerConfig
         {
             BootstrapServers = config["Kafka:BootstrapServers"],
@@ -28,14 +32,26 @@ public class KafkaConsumerService : BackgroundService
             FetchMinBytes = 1,
             SessionTimeoutMs = 10000
         };
+        _topic = config["Kafka:Topic"];
 
         _consumer = new ConsumerBuilder<Null, byte[]>(consumerConfig).Build();
-        _topic = config["Kafka:Topic"];
+        _projectorTypes = projectorTypes;
+
+        _appLifetime.ApplicationStarted.Register(() =>
+        {
+            _appStarted = true;
+        });
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        Console.WriteLine($"KafkaConsumerService started. Listening to topic: {_topic}");
         _consumer.Subscribe(_topic);
+
+        while (!_appStarted && !stoppingToken.IsCancellationRequested)
+        {
+            await Task.Delay(100, stoppingToken);
+        }
 
         try
         {
@@ -59,9 +75,9 @@ public class KafkaConsumerService : BackgroundService
                     var projector = (IEventProjector)scope.ServiceProvider.GetRequiredService(projType);
 
                     await projector.ProjectAsync(envelope.Payload, stoppingToken);
-
                     // commit offset only after successful projection
                     _consumer.Commit(result);
+                    Console.WriteLine($"Processed event type: {envelope.Type}");
                 }
                 catch (OperationCanceledException) { break; }
                 catch (Exception ex)
@@ -74,6 +90,7 @@ public class KafkaConsumerService : BackgroundService
         {
             _consumer.Close();
         }
+
     }
 
 }

@@ -1,30 +1,24 @@
 ﻿using Confluent.Kafka;
 using MessagePack;
-using MFAWebApplication.Abstraction.Repository;
-using MFAWebApplication.Context;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MFAWebApplication.Kafka;
 
 public class KafkaProducerService
 {
-    private readonly IServiceProvider _serviceProvider;
-    private readonly ProducerConfig _config;
     private readonly IProducer<Null, byte[]> _producer;
     private readonly string _topic;
 
     public KafkaProducerService(
-        IServiceProvider serviceProvider,
         IConfiguration config)
     {
-        _serviceProvider = serviceProvider;
-        _config = new ProducerConfig { 
+        var producerConfig = new ProducerConfig { 
             BootstrapServers = config["Kafka:BootstrapServers"],
             LingerMs = 2,
             BatchNumMessages = 10,
             Acks = Acks.Leader
         };
         _topic = config["Kafka:Topic"];
+        _producer = new ProducerBuilder<Null, byte[]>(producerConfig).Build();
     }
 
     public async Task ProduceAsync<TEvent>(TEvent @event)

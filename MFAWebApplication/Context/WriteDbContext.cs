@@ -32,7 +32,7 @@ public class WriteDbContext : DbContext
         {
             if (entry.State == EntityState.Modified)
             {
-                entry.Entity.ConcurencyIndex++;
+                entry.Entity.ConcurrencyIndex++;
             }
         }
 

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MFAWebApplication.Migrations
 {
     [DbContext(typeof(WriteDbContext))]
-    [Migration("20251102222923_first_migration")]
-    partial class first_migration
+    [Migration("20251103211741_initial-migration")]
+    partial class initialmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,7 +31,7 @@ namespace MFAWebApplication.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<decimal>("ConcurencyIndex")
+                    b.Property<decimal>("ConcurrencyIndex")
                         .IsConcurrencyToken()
                         .HasColumnType("numeric(20,0)");
 

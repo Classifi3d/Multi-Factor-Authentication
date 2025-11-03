@@ -5,7 +5,7 @@ using MongoDB.Driver.Linq;
 using System.Linq.Expressions;
 
 namespace MFAWebApplication.Abstraction.Repository;
-public class ReadModelRepository<TEntity> : IReadModelRepository<TEntity> where TEntity : class, IReadModel
+public class ReadModelRepository<TEntity> : IReadModelRepository<TEntity> where TEntity : ReadModel
 {
     private readonly IMongoCollection<TEntity> _collection;
 
@@ -40,18 +40,12 @@ public class ReadModelRepository<TEntity> : IReadModelRepository<TEntity> where 
 
         var filter = Builders<TEntity>.Filter.And(
             Builders<TEntity>.Filter.Eq("_id", id),
-            Builders<TEntity>.Filter.Lt(nameof(IReadModel.ConcurrencyIndex), entity.ConcurrencyIndex)
+            Builders<TEntity>.Filter.Lt(nameof(ReadModel.ConcurrencyIndex), entity.ConcurrencyIndex)
         );
-
         var options = new ReplaceOptions { IsUpsert = true };
-
         var result = await _collection.ReplaceOneAsync(filter, entity, options, cancellationToken);
 
-        if (!result.IsAcknowledged) return false;
-        if (result.UpsertedId != null) return true;
-        if (result.ModifiedCount > 0) return true;
-
-        return false;
+        return result.IsAcknowledged && (result.UpsertedId != null || result.ModifiedCount > 0);
     }
 
     public async Task<bool> DeleteIfMatchingConcurrencyAsync(TEntity entity, CancellationToken cancellationToken = default)
@@ -60,8 +54,9 @@ public class ReadModelRepository<TEntity> : IReadModelRepository<TEntity> where 
 
         var filter = Builders<TEntity>.Filter.And(
             Builders<TEntity>.Filter.Eq("_id", id),
-            Builders<TEntity>.Filter.Eq(nameof(IReadModel.ConcurrencyIndex), entity.ConcurrencyIndex)
+            Builders<TEntity>.Filter.Lt("concurrencyIndex", entity.ConcurrencyIndex)
         );
+
 
         var result = await _collection.DeleteOneAsync(filter, cancellationToken);
         return result.DeletedCount > 0;
