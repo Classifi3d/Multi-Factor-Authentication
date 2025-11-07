@@ -406,8 +406,6 @@ C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\obj\Debug\
 C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\obj\Debug\net8.0\MFAWebApplication.AssemblyInfoInputs.cache
 C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\obj\Debug\net8.0\MFAWebApplication.AssemblyInfo.cs
 C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\obj\Debug\net8.0\MFAWebApplication.csproj.CoreCompileInputs.cache
-C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\obj\Debug\net8.0\MFAWebApplication.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\obj\Debug\net8.0\MFAWebApplication.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\obj\Debug\net8.0\MFAWebApplication.sourcelink.json
 C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\obj\Debug\net8.0\rjimswa.dswa.cache.json
 C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
@@ -424,3 +422,5 @@ C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\obj\Debug\
 C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\obj\Debug\net8.0\MFAWebApplication.pdb
 C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\obj\Debug\net8.0\MFAWebApplication.genruntimeconfig.cache
 C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\obj\Debug\net8.0\ref\MFAWebApplication.dll
+C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\obj\Debug\net8.0\MFAWebApplication.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\danut\Projects\Multi-Factor-Authentication\MFAWebApplication\obj\Debug\net8.0\MFAWebApplication.MvcApplicationPartsAssemblyInfo.cache

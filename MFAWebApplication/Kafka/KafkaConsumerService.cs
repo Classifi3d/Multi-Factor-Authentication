@@ -79,10 +79,11 @@ public class KafkaConsumerService : BackgroundService
                     _consumer.Commit(result);
                     Console.WriteLine($"Processed event type: {envelope.Type}");
                 }
-                catch (OperationCanceledException) { break; }
+                //catch (OperationCanceledException) { break; }
                 catch (Exception ex)
                 {
-                    // log ex, do not commit to allow retry; consider moving message to DLQ after repeated failures
+                       
+                    Console.WriteLine(ex);
                 }
             }
         }

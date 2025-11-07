@@ -1,12 +1,12 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace MFAWebApplication.Enteties;
 
 public class UserReadModel : ReadModel
 {
-    [BsonId]
-    [BsonRepresentation(MongoDB.Bson.BsonType.String)]
-    public Guid Id { get; set; }
+    [BsonElement("_id")]
+    public string Id { get; set; }
     [BsonElement("email")]
     public string Email { get; set; } = string.Empty;        
     [BsonElement("username")]
@@ -15,4 +15,5 @@ public class UserReadModel : ReadModel
     public string Password { get; set; } = string.Empty;
     [BsonElement("isMfaEnabled")]
     public bool IsMfaEnabled { get; set; }
+
 }

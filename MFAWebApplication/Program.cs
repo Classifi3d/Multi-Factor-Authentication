@@ -1,7 +1,6 @@
 using MFAWebApplication.Configurations;
 using MFAWebApplication.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
@@ -68,6 +67,7 @@ builder
             }
         );
     });
+
 
 
 // Databases

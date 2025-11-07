@@ -8,7 +8,6 @@ using MFAWebApplication.Context;
 using MFAWebApplication.Enteties;
 using MFAWebApplication.Kafka;
 using MFAWebApplication.Services;
-using System.Text.Json;
 
 namespace MFAWebApplication.CommandsAndQueries.Users;
 

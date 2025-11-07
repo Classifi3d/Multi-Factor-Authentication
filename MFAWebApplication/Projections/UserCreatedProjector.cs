@@ -19,18 +19,19 @@ public class UserCreatedProjector : IEventProjector
 
     public async Task ProjectAsync(byte[] payload, CancellationToken cancellationToken)
     {
-        var evt = MessagePackSerializer.Deserialize<UserCreatedEvent>(payload);
-        if (evt == null) return;
+        var userEvent = MessagePackSerializer.Deserialize<UserCreatedEvent>(payload);
+        if (userEvent == null) return;
 
         var readModel = new UserReadModel
         {
-            Id = evt.Id,
-            Email = evt.Email,
-            Username = evt.Username,
-            Password = evt.Password,
-            IsMfaEnabled = evt.IsMfaEnabled,
-            ConcurrencyIndex = evt.ConcurrencyIndex
+            Id = userEvent.Id.ToString(),
+            Email = userEvent.Email,
+            Username = userEvent.Username,
+            Password = userEvent.Password,
+            IsMfaEnabled = userEvent.IsMfaEnabled,
+            ConcurrencyIndex = userEvent.ConcurrencyIndex
         };
+        //readModel = _mapper.Map<UserReadModel>(userEvent);
 
         await _repo.UpsertIfNewerConcurrencyAsync(readModel, cancellationToken);
     }

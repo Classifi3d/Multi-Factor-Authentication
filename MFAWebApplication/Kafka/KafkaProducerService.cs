@@ -29,5 +29,7 @@ public class KafkaProducerService
         var bytes = MessagePackSerializer.Serialize(envelope);
 
         await _producer.ProduceAsync(_topic, new Message<Null, byte[]> { Value = bytes });
+        _producer.Flush(TimeSpan.FromSeconds(1));
+
     }
 }
