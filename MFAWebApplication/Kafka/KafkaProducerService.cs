@@ -1,5 +1,7 @@
 ﻿using Confluent.Kafka;
 using MessagePack;
+using MessagePack.Resolvers;
+using MFAWebApplication.Outbox;
 
 namespace MFAWebApplication.Kafka;
 
@@ -11,7 +13,8 @@ public class KafkaProducerService
     public KafkaProducerService(
         IConfiguration config)
     {
-        var producerConfig = new ProducerConfig { 
+        var producerConfig = new ProducerConfig
+        {
             BootstrapServers = config["Kafka:BootstrapServers"],
             LingerMs = 2,
             BatchNumMessages = 10,
@@ -21,14 +24,14 @@ public class KafkaProducerService
         _producer = new ProducerBuilder<Null, byte[]>(producerConfig).Build();
     }
 
-    public async Task ProduceAsync<TEvent>(TEvent @event)
+    public async Task ProduceAsync(OutboxMessage message)
     {
-        var payload = MessagePackSerializer.Serialize(@event);
-        var envelope = new KafkaEnvelope(typeof(TEvent).Name, payload);
-
-        var bytes = MessagePackSerializer.Serialize(envelope);
-
-        await _producer.ProduceAsync(_topic, new Message<Null, byte[]> { Value = bytes });
+        var options = MessagePackSerializerOptions.Standard.WithResolver(ContractlessStandardResolver.Instance);
+        var bytes = MessagePackSerializer.Serialize(message, options);  
+        await _producer.ProduceAsync(
+            _topic,
+            new Message<Null, byte[]> { Value = bytes }
+            );
         _producer.Flush(TimeSpan.FromSeconds(1));
 
     }

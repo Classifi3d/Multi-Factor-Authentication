@@ -7,6 +7,7 @@ using MFAWebApplication.Context;
 using MFAWebApplication.DTOs;
 using MFAWebApplication.Enteties;
 using MFAWebApplication.Kafka;
+using MFAWebApplication.Outbox;
 using MFAWebApplication.Projections;
 using MFAWebApplication.Services;
 using System.Reflection;
@@ -14,7 +15,7 @@ namespace MFAWebApplication.Extensions;
 
 public static class ServiceCollectionExtension
 {
-    public static IServiceCollection AddApplicationServices( this IServiceCollection services )
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         MessagePackSerializer.DefaultOptions = MessagePackSerializerOptions.Standard.WithResolver(MessagePack.Resolvers.ContractlessStandardResolver.Instance);
 
@@ -49,14 +50,18 @@ public static class ServiceCollectionExtension
         services.AddScoped<ISecurityService, SecurityService>();
         services.AddAutoMapper(assemblies);
         services.AddSingleton(MapperConfiguration.InitializeAutomapper());
-        services.AddMemoryCache();
+        services.AddMemoryCache(); 
 
         // Messaging Queue
+        // Sender 
         services.AddSingleton<KafkaProducerService>();
         services.AddHostedService<KafkaConsumerService>();
+        services.AddHostedService<OutboxProcessorService>();
+        //MessagePackSerializer.DefaultOptions = MessagePackSerializerOptions.Standard
+        //    .WithCompression(MessagePackCompression.Lz4BlockArray);
 
+        // Receiver 
         services.AddScoped<UserCreatedProjector>();
-
         var projectorMap = new Dictionary<string, Type>
         {
             [nameof(UserCreatedEvent)] = typeof(UserCreatedProjector),
@@ -70,6 +75,8 @@ public static class ServiceCollectionExtension
         {
             opts.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore;
         });
+
+
 
 
         return services;

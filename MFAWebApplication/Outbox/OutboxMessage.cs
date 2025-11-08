@@ -8,4 +8,5 @@ public class OutboxMessage
     public string Type { get; set; } = string.Empty;
     public byte[] Payload { get; set; } = Array.Empty<byte>();
     public bool Processed { get; set; } = false;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }

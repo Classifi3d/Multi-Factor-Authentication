@@ -1,4 +1,5 @@
 ﻿using MFAWebApplication.Abstraction.Repository;
+using MFAWebApplication.Outbox;
 using Microsoft.EntityFrameworkCore;
 
 namespace MFAWebApplication.Abstraction.UnitOfWork;
@@ -8,9 +9,10 @@ public class UnitOfWork<TContext> : IUnitOfWork, IDisposable
 {
     private readonly TContext _dbContext;
     private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
+    private readonly List<object> _pendingOutboxEvent = new List<object>();
 
     public UnitOfWork(
-        TContext dbContext )
+        TContext dbContext)
     {
         _dbContext = dbContext;
     }
@@ -19,9 +21,9 @@ public class UnitOfWork<TContext> : IUnitOfWork, IDisposable
     {
         var type = typeof(TEntity);
 
-        if ( _repositories.TryGetValue(type, out var repo) )
+        if (_repositories.TryGetValue(type, out var repo))
         {
-            return (IRepository<TEntity>) repo;
+            return (IRepository<TEntity>)repo;
         }
 
         var newRepo = new Repository<TEntity>(_dbContext);
@@ -29,15 +31,36 @@ public class UnitOfWork<TContext> : IUnitOfWork, IDisposable
         return newRepo;
     }
 
-    public async Task<int> SaveChangesAsync( CancellationToken cancellationToken = default )
+    public void AddOutboxEvent(object domainEvent)
     {
-        return await _dbContext.SaveChangesAsync(cancellationToken);
+        _pendingOutboxEvent.Add(domainEvent);
+    }
+
+    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        using var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+
+        var saveResult = await _dbContext.SaveChangesAsync(cancellationToken);
+
+        if (_pendingOutboxEvent.Count > 0)
+        {
+            var serializedOutbox = _pendingOutboxEvent.Select(outboxEvent => new OutboxMessage
+            {
+                Type = outboxEvent.GetType().Name,
+                Payload = MessagePack.MessagePackSerializer.Serialize(outboxEvent)
+            }).ToList();
+
+            await _dbContext.Set<OutboxMessage>().AddRangeAsync(serializedOutbox, cancellationToken);
+            _pendingOutboxEvent.Clear();
+            await _dbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        await transaction.CommitAsync(cancellationToken);
+        return saveResult;
     }
 
     public void Dispose()
     {
         _dbContext.Dispose();
     }
-
-
 }

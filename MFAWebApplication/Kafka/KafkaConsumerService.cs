@@ -1,7 +1,6 @@
-﻿using AutoMapper;
-using Confluent.Kafka;
+﻿using Confluent.Kafka;
 using MessagePack;
-using MFAWebApplication.Kafka;
+using MFAWebApplication.Outbox;
 using MFAWebApplication.Projections;
 
 public class KafkaConsumerService : BackgroundService
@@ -26,11 +25,13 @@ public class KafkaConsumerService : BackgroundService
             BootstrapServers = config["Kafka:BootstrapServers"],
             GroupId = "read-db-consumer",
             AutoOffsetReset = AutoOffsetReset.Earliest,
-            EnableAutoCommit = true,
+            //EnableAutoCommit = true,
+            EnableAutoCommit = false,
             StatisticsIntervalMs = 5000,
             FetchWaitMaxMs = 5,
             FetchMinBytes = 1,
-            SessionTimeoutMs = 10000
+            SessionTimeoutMs = 10000,
+            MaxPollIntervalMs = 300000,
         };
         _topic = config["Kafka:Topic"];
 
@@ -62,12 +63,11 @@ public class KafkaConsumerService : BackgroundService
                     var result = _consumer.Consume(stoppingToken);
                     if (result?.Message?.Value == null) continue;
 
-                    var envelope = MessagePackSerializer.Deserialize<KafkaEnvelope>(result.Message.Value);
+                    var envelope = MessagePackSerializer.Deserialize<OutboxMessage>(result.Message.Value);
 
                     if (!_projectorTypes.TryGetValue(envelope.Type, out var projType))
                     {
-                        // unknown event - skip, optionally log or push to DLQ
-                        _consumer.Commit(result); // commit to avoid redelivery if you don't want to process
+                        _consumer.Commit(result);
                         continue;
                     }
 
@@ -75,14 +75,15 @@ public class KafkaConsumerService : BackgroundService
                     var projector = (IEventProjector)scope.ServiceProvider.GetRequiredService(projType);
 
                     await projector.ProjectAsync(envelope.Payload, stoppingToken);
-                    // commit offset only after successful projection
                     _consumer.Commit(result);
                     Console.WriteLine($"Processed event type: {envelope.Type}");
                 }
-                //catch (OperationCanceledException) { break; }
+                catch (OperationCanceledException) { 
+                    break; 
+                }
                 catch (Exception ex)
                 {
-                       
+
                     Console.WriteLine(ex);
                 }
             }

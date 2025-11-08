@@ -23,6 +23,11 @@ public static class ExternalConnectionsExtensions
         //            builder.Configuration.GetConnectionString("PostgreSQL_Read_Connection_String")
         //        )
         //);
+        // !!!!!!!!
+        //builder.Services.AddDbContext<ReadDbContext>(options =>
+        //{
+        //    options.UseMongo(builder.Configuration); // or your existing setup
+        //});
 
 
         // Read Database MongoDB
